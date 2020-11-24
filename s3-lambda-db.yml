@@ -1,0 +1,92 @@
+---
+# To Do: Use parameters, check circular dependency issue
+Parameters:
+  MyBucketName:
+    Type: String
+    Default: "test-bucket-noureddine1234"
+    Description: "Name of the bucket"
+  MyLambdaName:
+    Type: String
+    Default: "test-lambda-noureddine1234"
+    Description: "Name of the lambda function"
+
+Resources:
+  MyS3Bucket:
+    Type: "AWS::S3::Bucket"
+    Properties:
+      AccessControl: "Private"
+      BucketName: !Ref MyBucketName
+      #NotificationConfiguration:
+      #  LambdaConfigurations:
+      #    - Event: "s3:ObjectCreated:*"
+      #      Filter:
+      #        S3Key:
+      #          Rules:
+      #            - Name: "suffix"
+      #              Value: "xlsx"
+      #      Function: !GetAtt MyLambdaFunction.Arn
+  
+  S3InvokeLambdaPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref MyLambdaFunction
+      Principal: s3.amazonaws.com
+      SourceArn: !GetAtt MyS3Bucket.Arn
+
+  MyLambdaFunction:
+    Type: "AWS::Lambda::Function"
+    Properties:
+      Code:
+        S3Bucket: "lambda-package-bucket-test"
+        S3Key: "pack3.zip"
+      FunctionName: !Ref MyLambdaName
+      Handler: index.lambda_handler
+      Runtime: python3.7
+      Role: !GetAtt MyLambdaRole.Arn
+
+  MyLambdaRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - "sts:AssumeRole"
+      Path: /
+      Policies:
+        - PolicyName: Policy_s3-lambda
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "s3:GetObject"
+                Resource: "*" #!GetAtt MyS3Bucket.Arn #gives circular dependency error 
+              - Effect: Allow
+                Action:
+                  - "logs:CreateLogStream"
+                  - "logs:CreateLogGroup"
+                  - "logs:PutLogEvents"
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - "dynamodb:PutItem"
+                Resource: !GetAtt MyDBTable.Arn
+  
+  
+  MyDBTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: "Id"
+          AttributeType: "N"
+      KeySchema:
+        - AttributeName: "Id"
+          KeyType: "HASH"
+      BillingMode: "PAY_PER_REQUEST"
+      TableName: "company-info-test"
