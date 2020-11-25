@@ -15,8 +15,11 @@ pipeline{
             steps{
 
                 sh '''
-                    aws cloudformation describe-stacks --stack-name $STACK_NAME --region $AWS_REGION && stack_exists = "True" || stack_exists="False"
-                    echo $stack_exists
+                    stack_create = "False"
+                    stack_update = "False"
+                    aws cloudformation describe-stacks --stack-name $STACK_NAME --region $AWS_REGION && stack_update = "True" || stack_create="True"
+                    echo $stack_create
+                    echo $stack_update
                 '''
             }
         }
