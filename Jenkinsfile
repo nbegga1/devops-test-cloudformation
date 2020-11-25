@@ -6,7 +6,7 @@ pipeline{
         stage("list-stacks"){
 
             steps{
-                sh 'aws cloudformation list-stack-instances --region us-east-1'
+                sh 'aws cloudformation list-stacks --region us-east-1'
             }
         }
 
