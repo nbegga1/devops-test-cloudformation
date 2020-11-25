@@ -3,10 +3,10 @@ pipeline{
 
     stages{
 
-        stage("build"){
+        stage("list-stacks"){
 
             steps{
-                echo 'building application...'
+                sh 'aws cloudformation list-stack-instances --region us-east-1'
             }
         }
 
