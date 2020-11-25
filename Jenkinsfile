@@ -15,7 +15,7 @@ pipeline{
             steps{
 
                 sh '''
-                    aws cloudformation describe-stacks --stack-name $STACK_NAME --region $AWS_REGION && echo "Stack exists" || echo "Stack does not exist"
+                    aws cloudformation describe-stacks --stack-name $STACK_NAME --region $AWS_REGION && echo "Stack exists" || test="Stack does not exist"
                     echo $(!!)
                 '''
             }
