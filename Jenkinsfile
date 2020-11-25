@@ -5,7 +5,7 @@ pipeline{
         AWS_ACCESS_KEY_ID     = credentials('aws-id')
         AWS_SECRET_ACCESS_KEY = credentials('aws-secret')
         AWS_REGION = 'us-east-1'
-        STACK_NAME = 's-test'
+        STACK_NAME = 's3-test'
     }
 
     stages{
@@ -13,7 +13,7 @@ pipeline{
         stage("list-stacks"){
 
             steps{
-                sh 'aws cloudformation describe-stacks --region $AWS_REGION --stack-name $STACK_NAME'
+                sh 'aws cloudformation stack-exists --stack-name $STACK_NAME'
             }
         }
 
