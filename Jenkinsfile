@@ -19,10 +19,10 @@ pipeline{
                     stack_update="False"
                     aws cloudformation describe-stacks --stack-name $STACK_NAME --region $AWS_REGION && stack_update="True" || stack_create="True"
                     
-                    if $stack_create == "True"
+                    if [ $stack_create == "True" ]
                     then
                         echo "CREATE A NEW STACK"
-                    elif $stack_update == "True"
+                    elif [ $stack_update == "True" ]
                     then
                         echo "UPDATE EXISTING STACK"
                     else
