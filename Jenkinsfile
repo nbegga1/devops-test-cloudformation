@@ -13,7 +13,11 @@ pipeline{
         stage("list-stacks"){
 
             steps{
-                sh 'aws cloudformation describe-stacks --region $AWS_REGION'
+
+                sh '''
+
+                    aws cloudformation describe-stacks --stack-name $STACK_NAME --region $AWS_REGION && echo "OK" || echo "NOT OK"
+                '''
             }
         }
 
