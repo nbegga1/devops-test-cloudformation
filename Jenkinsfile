@@ -5,7 +5,7 @@ pipeline{
         AWS_ACCESS_KEY_ID     = credentials('aws-id')
         AWS_SECRET_ACCESS_KEY = credentials('aws-secret')
         AWS_REGION = 'us-east-1'
-        STACK_NAME = 's-test'
+        STACK_NAME = 'test'
     }
 
     stages{
@@ -24,7 +24,7 @@ pipeline{
                         aws cloudformation create-stack --stack-name $STACK_NAME --template-body file://s3-test.yml --region $AWS_REGION
                     elif [ $stack_update == "True" ]
                     then
-                        echo "UPDATE EXISTING STACK"
+                        aws cloudformation update-stack --stack-name $STACK_NAME --template-body file://s3-lambda-db.yml --region $AWS_REGION
                     else
                         echo "SOMETHING IS WRONG"
                     fi
