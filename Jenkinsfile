@@ -10,7 +10,7 @@ pipeline{
 
     stages{
 
-        stage("list-stacks"){
+        stage("create-update-stack"){
 
             steps{
 
