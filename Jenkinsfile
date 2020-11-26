@@ -21,7 +21,7 @@ pipeline{
                     
                     if [ $stack_create == "True" ]
                     then
-                        echo "CREATE A NEW STACK"
+                        aws cloudformation create-stack --stack-name $STACK_NAME --template-body file://s3-test.yml
                     elif [ $stack_update == "True" ]
                     then
                         echo "UPDATE EXISTING STACK"

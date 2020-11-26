@@ -1,0 +1,13 @@
+---
+Parameters:
+  MyBucketName:
+    Type: String
+    Default: "default-bucket-name-234f234213fsdi454"
+    Description: "Name of the lambda function"
+
+Resources:
+  MyS3Bucket:
+    Type: "AWS::S3::Bucket"
+    Properties:
+      AccessControl: "Private"
+      BucketName: !Ref MyBucketName
