@@ -1,7 +1,4 @@
 ---
-# test11
-
-#test12
 # To Do: Use parameters, check circular dependency issue
 Parameters:
   MyBucketName:
@@ -19,15 +16,15 @@ Resources:
     Properties:
       AccessControl: "Private"
       BucketName: !Ref MyBucketName
-      #NotificationConfiguration:
-      #  LambdaConfigurations:
-      #    - Event: "s3:ObjectCreated:*"
-      #      Filter:
-      #        S3Key:
-      #          Rules:
-      #            - Name: "suffix"
-      #              Value: "xlsx"
-      #      Function: !GetAtt MyLambdaFunction.Arn
+      NotificationConfiguration:
+        LambdaConfigurations:
+          - Event: "s3:ObjectCreated:*"
+            Filter:
+              S3Key:
+                Rules:
+                  - Name: "suffix"
+                    Value: "xlsx"
+            Function: !GetAtt MyLambdaFunction.Arn
   
   S3InvokeLambdaPermission:
     Type: AWS::Lambda::Permission
