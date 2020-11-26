@@ -32,10 +32,10 @@ pipeline{
             }
         }
 
-        stage("deploy"){
+        stage("next-stage"){
 
             steps{
-                echo 'deploy app...'
+                echo 'Next stage...'
             }
         }
     }
