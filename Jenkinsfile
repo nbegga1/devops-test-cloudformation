@@ -24,7 +24,7 @@ pipeline{
                         aws cloudformation create-stack --stack-name $STACK_NAME --template-body file://s3-test.yml --region $AWS_REGION
                     elif [ $stack_update == "True" ]
                     then
-                        aws cloudformation update-stack --stack-name $STACK_NAME --template-body file://s3-lambda-db.yml --region $AWS_REGION
+                        aws cloudformation update-stack --stack-name $STACK_NAME --template-body file://s3-lambda-db.yml --region $AWS_REGION --capabilities CAPABILITY_IAM
                     else
                         echo "SOMETHING IS WRONG"
                     fi
