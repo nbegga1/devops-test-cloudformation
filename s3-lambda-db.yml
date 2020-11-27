@@ -39,7 +39,7 @@ Resources:
     Properties:
       Code:
         S3Bucket: "lambda-package-bucket-test"
-        S3Key: "pack3.zip"
+        S3Key: "lambda-deployment-package.zip"
       FunctionName: !Ref MyLambdaName
       Handler: index.lambda_handler
       Runtime: python3.7
