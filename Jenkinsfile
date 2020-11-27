@@ -37,7 +37,7 @@ pipeline{
                     if [ $stack_create == true ]
                     then
                         aws cloudformation create-stack --stack-name $STACK_NAME --template-body file://$TEMPLATE_NAME --region $AWS_REGION
-                    elif [ $stack_update == truet ]
+                    elif [ $stack_update == true ]
                     then
                         aws cloudformation update-stack --stack-name $STACK_NAME --template-body file://$TEMPLATE_NAME --region $AWS_REGION --capabilities CAPABILITY_IAM
                     else
