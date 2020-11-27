@@ -8,7 +8,7 @@ Parameters:
   MyLambdaName:
     Type: String
     Default: "test-lambda-noureddine1234"
-    Description: "Name of the lambda function"
+    Description: "Name of the lambda function."
 
 Resources:
   MyS3Bucket:
