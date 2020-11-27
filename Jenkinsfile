@@ -30,14 +30,14 @@ pipeline{
             steps{
 
                 sh '''
-                    stack_create="False"
-                    stack_update="False"
-                    aws cloudformation describe-stacks --stack-name $STACK_NAME --region $AWS_REGION && stack_update="True" || stack_create="True"
+                    stack_create=false
+                    stack_update=false
+                    aws cloudformation describe-stacks --stack-name $STACK_NAME --region $AWS_REGION && stack_update=true || stack_create=true
                     
-                    if [ $stack_create == "True" ]
+                    if [ $stack_create == true ]
                     then
                         aws cloudformation create-stack --stack-name $STACK_NAME --template-body file://$TEMPLATE_NAME --region $AWS_REGION
-                    elif [ $stack_update == "True" ]
+                    elif [ $stack_update == truet ]
                     then
                         aws cloudformation update-stack --stack-name $STACK_NAME --template-body file://$TEMPLATE_NAME --region $AWS_REGION --capabilities CAPABILITY_IAM
                     else
