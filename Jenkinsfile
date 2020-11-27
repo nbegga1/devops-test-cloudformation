@@ -17,7 +17,7 @@ pipeline{
                 sh '''
                     cd package
                     zip -r lambda-deployment-package.zip ./*
-                    ls
+                    mv -r lambda-deployment-package.zip ..
                     cd ..
                     zip -g lambda-deployment-package.zip index.py
                     aws s3 cp lambda-deployment-package.zip s3://lambda-package-bucket-test
