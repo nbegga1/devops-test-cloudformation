@@ -63,26 +63,27 @@ pipeline{
         }
 
 
-        // stage("Create/Update stack"){
+        stage("Create/Update stack"){
 
-        //     steps{
+            steps{
+                input('Do you approve of the changes?')
 
-        //         sh '''
-        //             stack_create=false
-        //             stack_update=false
-        //             aws cloudformation describe-stacks --stack-name $STACK_NAME --region $AWS_REGION && stack_update=true || stack_create=true
+                sh '''
+                    stack_create=false
+                    stack_update=false
+                    aws cloudformation describe-stacks --stack-name $STACK_NAME --region $AWS_REGION && stack_update=true || stack_create=true
                     
-        //             if [ $stack_create == true ]
-        //             then
-        //                 aws cloudformation create-stack --stack-name $STACK_NAME --template-body file://$TEMPLATE_NAME --region $AWS_REGION
-        //             elif [ $stack_update == true ]
-        //             then
-        //                 aws cloudformation update-stack --stack-name $STACK_NAME --template-body file://$TEMPLATE_NAME --region $AWS_REGION --capabilities CAPABILITY_IAM
-        //             else
-        //                 echo "SOMETHING IS WRONG"
-        //             fi
-        //         '''
-        //     }
-        // }
+                    if [ $stack_create == true ]
+                    then
+                        aws cloudformation create-stack --stack-name $STACK_NAME --template-body file://$TEMPLATE_NAME --region $AWS_REGION
+                    elif [ $stack_update == true ]
+                    then
+                        aws cloudformation update-stack --stack-name $STACK_NAME --template-body file://$TEMPLATE_NAME --region $AWS_REGION --capabilities CAPABILITY_IAM
+                    else
+                        echo "SOMETHING IS WRONG"
+                    fi
+                '''
+            }
+        }
     }
 }
