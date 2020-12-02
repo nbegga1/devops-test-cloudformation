@@ -52,6 +52,16 @@ pipeline{
             }
         }
 
+        stage("Describe changeset"){
+
+            steps{
+
+                sh '''
+                    aws cloudformation describe-change-set --stack-name $STACK_NAME --change-set-name $CHANGE_SET_NAME --template-body
+                '''
+            }
+        }
+
 
         // stage("Create/Update stack"){
 
