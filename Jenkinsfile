@@ -7,7 +7,7 @@ pipeline{
         AWS_REGION = 'us-east-1'
         STACK_NAME = 's3-test'
         TEMPLATE_NAME = 's3-test.yml'
-        CHANGE_SET_NAME = 'change-set-test'
+        CHANGE_SET_NAME = 'change-set-test1'
     }
 
     stages{
