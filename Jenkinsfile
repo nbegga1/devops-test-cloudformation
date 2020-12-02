@@ -39,11 +39,11 @@ pipeline{
                     
                     if [ $stack_create == true ]
                     then
-                        aws cloudformation create-change-set --stack-name $STACK_NAME --change-set-name $CHANGE_SET_NAME --template-body --region $AWS_REGION file://$TEMPLATE_NAME --capabilities CAPABILITY_IAM --change-set-type CREATE
+                        aws cloudformation create-change-set --stack-name $STACK_NAME --change-set-name $CHANGE_SET_NAME --template-body file://$TEMPLATE_NAME --region $AWS_REGION --capabilities CAPABILITY_IAM --change-set-type CREATE
                         aws cloudformation wait change-set-create-complete --stack-name $STACK_NAME --change-set-name $CHANGE_SET_NAME --region $AWS_REGION
                     elif [ $stack_update == true ]
                     then
-                        aws cloudformation create-change-set --stack-name $STACK_NAME --change-set-name $CHANGE_SET_NAME --template-body --region $AWS_REGION file://$TEMPLATE_NAME --capabilities CAPABILITY_IAM --change-set-type UPDATE
+                        aws cloudformation create-change-set --stack-name $STACK_NAME --change-set-name $CHANGE_SET_NAME --template-body file://$TEMPLATE_NAME --region $AWS_REGION --capabilities CAPABILITY_IAM --change-set-type UPDATE
                         aws cloudformation wait change-set-create-complete --stack-name $STACK_NAME --change-set-name $CHANGE_SET_NAME --region $AWS_REGION
                     else
                         echo "SOMETHING IS WRONG"
@@ -57,7 +57,7 @@ pipeline{
             steps{
 
                 sh '''
-                    aws cloudformation describe-change-set --stack-name $STACK_NAME --change-set-name $CHANGE_SET_NAME --template-body
+                    aws cloudformation describe-change-set --stack-name $STACK_NAME --change-set-name $CHANGE_SET_NAME --region $AWS_REGION
                 '''
             }
         }
