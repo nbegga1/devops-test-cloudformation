@@ -12,9 +12,7 @@ pipeline{
     stages{
 
         stage("Deploy lambda code"){
-            when {
-                expression {}
-            }
+            
             steps{
                 input('You want to build??')
                 
