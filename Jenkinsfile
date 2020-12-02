@@ -18,7 +18,8 @@ pipeline{
             steps{
                 script{
                     def testInput = input(
-                        message: "You want to build??"
+                        id: 'testId'
+                        message: 'You want to build??'
                     )
                     
                     sh '''
