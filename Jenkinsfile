@@ -39,10 +39,10 @@ pipeline{
                     
                     if [ $stack_create == true ]
                     then
-                        aws cloudformation create-change-set --stack-name $STACK_NAME --change-set-name $CHANGE_SET_NAME --template-body file://$TEMPLATE_NAME --capabilities CAPABILITY_IAM --change-set-type CREATE
+                        aws cloudformation create-change-set --stack-name $STACK_NAME --change-set-name $CHANGE_SET_NAME --template-body --region $AWS_REGION file://$TEMPLATE_NAME --capabilities CAPABILITY_IAM --change-set-type CREATE
                     elif [ $stack_update == true ]
                     then
-                        aws cloudformation create-change-set --stack-name $STACK_NAME --change-set-name $CHANGE_SET_NAME --template-body file://$TEMPLATE_NAME --capabilities CAPABILITY_IAM --change-set-type UPDATE
+                        aws cloudformation create-change-set --stack-name $STACK_NAME --change-set-name $CHANGE_SET_NAME --template-body --region $AWS_REGION file://$TEMPLATE_NAME --capabilities CAPABILITY_IAM --change-set-type UPDATE
                     else
                         echo "SOMETHING IS WRONG"
                     fi
