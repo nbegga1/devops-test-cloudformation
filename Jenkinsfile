@@ -7,6 +7,7 @@ pipeline{
         AWS_REGION = 'us-east-1'
         STACK_NAME = 's3-test'
         TEMPLATE_NAME = 's3-test.yml'
+        CHANGE_SET_NAME = 'change-set-test'
     }
 
     stages{
@@ -14,7 +15,6 @@ pipeline{
         stage("Deploy lambda code"){
             
             steps{
-                input('You want to build??')
                 
                 sh '''
                 cd package
@@ -28,7 +28,7 @@ pipeline{
             }
         }
 
-        stage("Create/Update stack"){
+        stage("Create changeset"){
 
             steps{
 
@@ -39,15 +39,38 @@ pipeline{
                     
                     if [ $stack_create == true ]
                     then
-                        aws cloudformation create-stack --stack-name $STACK_NAME --template-body file://$TEMPLATE_NAME --region $AWS_REGION
+                        aws cloudformation create-change-set --stack-name $STACK_NAME --change-set-name $CHANGE_SET_NAME --template-body file://$TEMPLATE_NAME --capabilities CAPABILITY_IAM --change-set-type CREATE
                     elif [ $stack_update == true ]
                     then
-                        aws cloudformation update-stack --stack-name $STACK_NAME --template-body file://$TEMPLATE_NAME --region $AWS_REGION --capabilities CAPABILITY_IAM
+                        aws cloudformation create-change-set --stack-name $STACK_NAME --change-set-name $CHANGE_SET_NAME --template-body file://$TEMPLATE_NAME --capabilities CAPABILITY_IAM --change-set-type UPDATE
                     else
                         echo "SOMETHING IS WRONG"
                     fi
                 '''
             }
         }
+
+
+        // stage("Create/Update stack"){
+
+        //     steps{
+
+        //         sh '''
+        //             stack_create=false
+        //             stack_update=false
+        //             aws cloudformation describe-stacks --stack-name $STACK_NAME --region $AWS_REGION && stack_update=true || stack_create=true
+                    
+        //             if [ $stack_create == true ]
+        //             then
+        //                 aws cloudformation create-stack --stack-name $STACK_NAME --template-body file://$TEMPLATE_NAME --region $AWS_REGION
+        //             elif [ $stack_update == true ]
+        //             then
+        //                 aws cloudformation update-stack --stack-name $STACK_NAME --template-body file://$TEMPLATE_NAME --region $AWS_REGION --capabilities CAPABILITY_IAM
+        //             else
+        //                 echo "SOMETHING IS WRONG"
+        //             fi
+        //         '''
+        //     }
+        // }
     }
 }
