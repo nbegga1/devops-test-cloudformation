@@ -16,21 +16,16 @@ pipeline{
                 expression {}
             }
             steps{
-                script{
-                    //def testInput = input(
-                    //    id: 'testId'
-                    //    message: 'You want to build??'
-                    //)
-                    
-                    sh '''
-                    cd package
-                    zip -r lambda-deployment-package.zip ./*
-                    mv lambda-deployment-package.zip ..
-                    cd ..
-                    zip -g lambda-deployment-package.zip index.py
-                    aws s3 cp lambda-deployment-package.zip s3://lambda-package-bucket-test
-                    '''
-                }
+                input('You want to build??')
+                
+                sh '''
+                cd package
+                zip -r lambda-deployment-package.zip ./*
+                mv lambda-deployment-package.zip ..
+                cd ..
+                zip -g lambda-deployment-package.zip index.py
+                aws s3 cp lambda-deployment-package.zip s3://lambda-package-bucket-test
+                '''
                 
             }
         }
