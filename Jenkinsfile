@@ -17,10 +17,10 @@ pipeline{
             }
             steps{
                 script{
-                    def testInput = input(
-                        id: 'testId'
-                        message: 'You want to build??'
-                    )
+                    //def testInput = input(
+                    //    id: 'testId'
+                    //    message: 'You want to build??'
+                    //)
                     
                     sh '''
                     cd package
