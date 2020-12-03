@@ -24,20 +24,6 @@ pipeline{
 
     stages{
 
-        stage("TEST STAGE"){
-            
-            steps{
-                
-                sh '''
-                echo $STACK_CREATE
-                echo $STACK_UPDATE
-                '''
-                
-            }
-        }
-
-
-
         // stage("Deploy lambda code"){
             
         //     steps{
@@ -54,84 +40,79 @@ pipeline{
         //     }
         // }
 
-        // stage("Create changeset"){
+        stage("Create changeset"){
 
-        //     steps{
+            steps{
 
-        //         sh '''
-        //             stack_create=false
-        //             stack_update=false
-        //             aws cloudformation describe-stacks --stack-name $STACK_NAME --region $AWS_REGION && stack_update=true || stack_create=true
-        //             set stack_create = ${env.STACK_CREATE}
-        //             set stack_update = ${env.STACK_UPDATE}
-        //             if [ $stack_create == true ]
-        //             then
-        //                 aws cloudformation create-change-set --stack-name $STACK_NAME --change-set-name $CHANGE_SET_NAME --template-body file://$TEMPLATE_NAME --region $AWS_REGION --capabilities CAPABILITY_IAM --change-set-type CREATE
-        //                 aws cloudformation wait change-set-create-complete --stack-name $STACK_NAME --change-set-name $CHANGE_SET_NAME --region $AWS_REGION
-        //             elif [ $stack_update == true ]
-        //             then
-        //                 aws cloudformation create-change-set --stack-name $STACK_NAME --change-set-name $CHANGE_SET_NAME --template-body file://$TEMPLATE_NAME --region $AWS_REGION --capabilities CAPABILITY_IAM --change-set-type UPDATE
-        //                 aws cloudformation wait change-set-create-complete --stack-name $STACK_NAME --change-set-name $CHANGE_SET_NAME --region $AWS_REGION
-        //             else
-        //                 echo "SOMETHING IS WRONG"
-        //             fi
-        //         '''
-        //     }
-        // }
+                sh '''
+                    if [ $STACK_CREATE == true ]
+                    then
+                        aws cloudformation create-change-set --stack-name $STACK_NAME --change-set-name $CHANGE_SET_NAME --template-body file://$TEMPLATE_NAME --region $AWS_REGION --capabilities CAPABILITY_IAM --change-set-type CREATE
+                        aws cloudformation wait change-set-create-complete --stack-name $STACK_NAME --change-set-name $CHANGE_SET_NAME --region $AWS_REGION
+                    elif [ $STACK_UPDATE == true ]
+                    then
+                        aws cloudformation create-change-set --stack-name $STACK_NAME --change-set-name $CHANGE_SET_NAME --template-body file://$TEMPLATE_NAME --region $AWS_REGION --capabilities CAPABILITY_IAM --change-set-type UPDATE
+                        aws cloudformation wait change-set-create-complete --stack-name $STACK_NAME --change-set-name $CHANGE_SET_NAME --region $AWS_REGION
+                    else
+                        echo "SOMETHING IS WRONG"
+                    fi
+                '''
+            }
+        }
 
-        // stage("Describe changeset"){
+        stage("Describe changeset"){
 
-        //     steps{
+            steps{
 
-        //         sh '''
-        //             aws cloudformation describe-change-set --stack-name $STACK_NAME --change-set-name $CHANGE_SET_NAME --region $AWS_REGION
-        //         '''
-        //     }
-        // }
+                sh '''
+                    aws cloudformation describe-change-set --stack-name $STACK_NAME --change-set-name $CHANGE_SET_NAME --region $AWS_REGION
+                '''
+            }
+        }
 
 
-        // stage("Approval"){
+        stage("Approval"){
 
-        //     steps{
-        //         script{
-        //             def approveInput = input(
-        //                 id: 'approve',
-        //                 message: 'Do you approve of the changes?',
-        //                 parameters: [choice(name: 'Approvement', choices: "yes\nno", description: "Do you want to deploy these changes?")])
+            steps{
+                script{
+                    def approveInput = input(
+                        id: 'approve',
+                        message: 'Do you approve of the changes?',
+                        parameters: [choice(name: 'Approvement', choices: "yes\nno", description: "Do you want to deploy these changes?")])
 
-        //             if(approveInput == 'yes'){
-        //                 stage("Execute changeset"){
-        //                     sh '''
-        //                         stack_create=false
-        //                         stack_update=false
-        //                         aws cloudformation describe-stacks --stack-name $STACK_NAME --region $AWS_REGION && stack_update=true || stack_create=true
+                    if(approveInput == 'yes'){
+                        stage("Execute changeset"){
+                            sh '''
+                                stack_create=false
+                                stack_update=false
+                                aws cloudformation describe-stacks --stack-name $STACK_NAME --region $AWS_REGION && stack_update=true || stack_create=true
                                 
-        //                         if [ $stack_create == true ]
-        //                         then
-        //                             aws cloudformation create-stack --stack-name $STACK_NAME --template-body file://$TEMPLATE_NAME --region $AWS_REGION
-        //                         elif [ $stack_update == true ]
-        //                         then
-        //                             aws cloudformation update-stack --stack-name $STACK_NAME --template-body file://$TEMPLATE_NAME --region $AWS_REGION --capabilities CAPABILITY_IAM
-        //                         else
-        //                             echo "SOMETHING IS WRONG"
-        //                         fi
-        //                     '''
-        //                 }
-        //             }
-        //             else if(approveInput == 'no'){
-        //                 stage("Skip create/update"){
-        //                     echo 'Creation/Updation of $STACK_NAME will not be executed'
-        //                 }
-        //             }
+                                if [ $stack_create == true ]
+                                then
+                                    aws cloudformation create-stack --stack-name $STACK_NAME --template-body file://$TEMPLATE_NAME --region $AWS_REGION
+                                elif [ $stack_update == true ]
+                                then
+                                    aws cloudformation update-stack --stack-name $STACK_NAME --template-body file://$TEMPLATE_NAME --region $AWS_REGION --capabilities CAPABILITY_IAM
+                                else
+                                    echo "SOMETHING IS WRONG"
+                                fi
+                            '''
+                        }
+                    }
+                    else if(approveInput == 'no'){
+                        stage("Skip create/update"){
+                            echo 'Creation/Updation of $STACK_NAME will not be executed'
+                        }
+                    }
 
 
 
 
 
-        //         }
+                }
                 
 
-        //     }
-        // }
+            }
+        }
     }
 }
