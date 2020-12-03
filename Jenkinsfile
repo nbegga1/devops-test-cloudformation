@@ -8,8 +8,8 @@ pipeline{
         STACK_NAME = 's3-test'
         TEMPLATE_NAME = 's3-test.yml'
         CHANGE_SET_NAME = 'change-set-test'
-        STACK_CREATE = false
-        STACK_UPDATE = false
+        //STACK_CREATE = false
+        //STACK_UPDATE = false
     }
 
     stages{
@@ -35,7 +35,7 @@ pipeline{
             steps{
 
                 sh '''
-                    aws cloudformation describe-stacks --stack-name $STACK_NAME --region $AWS_REGION && env.STACK_UPDATE=true || env.STACK_CREATE=true
+                    aws cloudformation describe-stacks --stack-name $STACK_NAME --region $AWS_REGION && $STACK_UPDATE=true || $STACK_CREATE=true
                     
                     if [ $STACK_CREATE == true ]
                     then
