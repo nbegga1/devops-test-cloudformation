@@ -18,7 +18,6 @@ pipeline{
                                     stack_update=false
                                     set +x
                                     aws cloudformation describe-stacks --stack-name $STACK_NAME --region $AWS_REGION && stack_update=true || stack_create=true
-                                    set -x
                                     echo $stack_create
                                     ''', returnStdout: true).trim()
                 STACK_UPDATE = sh(script: '''
