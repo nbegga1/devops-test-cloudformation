@@ -83,16 +83,15 @@ pipeline{
                     if(approveInput == 'yes'){
                         stage("Execute changeset"){
                             sh '''
-                                stack_create=false
-                                stack_update=false
-                                aws cloudformation describe-stacks --stack-name $STACK_NAME --region $AWS_REGION && stack_update=true || stack_create=true
                                 
-                                if [ $stack_create == true ]
+                                if [ $STACK_CREATE == true ]
                                 then
-                                    aws cloudformation create-stack --stack-name $STACK_NAME --template-body file://$TEMPLATE_NAME --region $AWS_REGION
-                                elif [ $stack_update == true ]
+                                    aws cloudformation execute-change-set --change-set-name $CHANGE_SET_NAME --stack-name $STACK_NAME --region $AWS_REGION
+                                    aws cloudformation wait stack-create-complete --stack-name $STACK_NAME --region $AWS_REGION
+                            elif [ $STACK_UPDATE == true ]
                                 then
-                                    aws cloudformation update-stack --stack-name $STACK_NAME --template-body file://$TEMPLATE_NAME --region $AWS_REGION --capabilities CAPABILITY_IAM
+                                    aws cloudformation execute-change-set --change-set-name $CHANGE_SET_NAME --stack-name $STACK_NAME --region $AWS_REGION
+                                    aws cloudformation wait stack-update-complete --stack-name $STACK_NAME --region $AWS_REGION
                                 else
                                     echo "SOMETHING IS WRONG"
                                 fi
