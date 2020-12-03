@@ -28,7 +28,7 @@ pipeline{
             }
             steps{
                 sh '''
-                    echo $STACK_CREATE
+                    echo $STACK_CREATE[0]
                     echo $STACK_UPDATE
                 '''
             }
