@@ -24,10 +24,12 @@ pipeline{
 
     stages{
         stage("test"){
-            sh '''
+            steps{
+                sh '''
                 echo $STACK_CREATE
                 echo $STACK_UPDATE
-            '''
+                '''
+            }
         }
         // // stage("Deploy lambda code"){
             
