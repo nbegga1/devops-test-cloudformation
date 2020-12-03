@@ -8,6 +8,8 @@ pipeline{
         STACK_NAME = 's3-test'
         TEMPLATE_NAME = 's3-test.yml'
         CHANGE_SET_NAME = 'change-set-test'
+        STACK_CREATE = false
+        STACK_UPDATE = false
     }
 
     stages{
@@ -33,15 +35,13 @@ pipeline{
             steps{
 
                 sh '''
-                    stack_create=false
-                    stack_update=false
-                    aws cloudformation describe-stacks --stack-name $STACK_NAME --region $AWS_REGION && stack_update=true || stack_create=true
+                    aws cloudformation describe-stacks --stack-name $STACK_NAME --region $AWS_REGION && $STACK_UPDATE=true || $STACK_CREATE=true
                     
-                    if [ $stack_create == true ]
+                    if [ $STACK_CREATE == true ]
                     then
                         aws cloudformation create-change-set --stack-name $STACK_NAME --change-set-name $CHANGE_SET_NAME --template-body file://$TEMPLATE_NAME --region $AWS_REGION --capabilities CAPABILITY_IAM --change-set-type CREATE
                         aws cloudformation wait change-set-create-complete --stack-name $STACK_NAME --change-set-name $CHANGE_SET_NAME --region $AWS_REGION
-                    elif [ $stack_update == true ]
+                    elif [ $STACK_UPDATE == true ]
                     then
                         aws cloudformation create-change-set --stack-name $STACK_NAME --change-set-name $CHANGE_SET_NAME --template-body file://$TEMPLATE_NAME --region $AWS_REGION --capabilities CAPABILITY_IAM --change-set-type UPDATE
                         aws cloudformation wait change-set-create-complete --stack-name $STACK_NAME --change-set-name $CHANGE_SET_NAME --region $AWS_REGION
@@ -73,7 +73,7 @@ pipeline{
                         parameters: [choice(name: 'Approvement', choices: "yes\nno", description: "Do you want to deploy these changes?")])
 
                     if(approveInput == 'yes'){
-                        stage("Create/Update stack"){
+                        stage("Execute changeset"){
                             sh '''
                                 stack_create=false
                                 stack_update=false
