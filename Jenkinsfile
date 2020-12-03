@@ -12,13 +12,13 @@ pipeline{
                                     stack_create=false
                                     stack_update=false
                                     aws cloudformation describe-stacks --stack-name $STACK_NAME --region $AWS_REGION && stack_update=true || stack_create=true
-                                    echo $stack_create
+                                    return $stack_create
                                     ''', returnStdout: true).trim()
         STACK_UPDATE = sh(script: '''
                                     stack_create=false
                                     stack_update=false
                                     aws cloudformation describe-stacks --stack-name $STACK_NAME --region $AWS_REGION && stack_update=true || stack_create=true
-                                    echo $stack_update
+                                    return $stack_update
                                     ''', returnStdout: true).trim()
     }
 
@@ -26,11 +26,8 @@ pipeline{
         stage("test"){
             steps{
                 sh '''
-                    stack_create=false
-                    stack_update=false
-                    aws cloudformation describe-stacks --stack-name $STACK_NAME --region $AWS_REGION && stack_update=true || stack_create=true
-                    echo $stack_create
-                    echo $stack_update
+                    echo $STACK_CREATE
+                    echo $STACK_UPDATE
                 '''
             }
         }
