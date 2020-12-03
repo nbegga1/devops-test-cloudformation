@@ -8,7 +8,7 @@ pipeline{
         STACK_NAME = 's3-test'
         TEMPLATE_NAME = 's3-test.yml'
         CHANGE_SET_NAME = 'change-set-test'
-        STACK_CREATE = false
+        STACK_CREATE = sh(script: "aws cloudformation describe-stacks --stack-name $STACK_NAME --region $AWS_REGION && stack_update=true || stack_create=true", returnStdout: true).trim()
         STACK_UPDATE = false
     }
 
