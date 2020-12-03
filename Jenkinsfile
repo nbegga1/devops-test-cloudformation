@@ -9,7 +9,7 @@ pipeline{
         TEMPLATE_NAME = 's3-test.yml'
         CHANGE_SET_NAME = 'change-set-test'
         STACK_CREATE = sh(script: '''
-                                    echo $STACK_NAME
+                                    echo ${env.STACK_NAME}
                                     ''', returnStdout: true).trim()
         STACK_UPDATE = sh(script: '''
                                     stack_create=false
