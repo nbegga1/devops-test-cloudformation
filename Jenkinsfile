@@ -35,6 +35,8 @@ pipeline{
             steps{
 
                 sh '''
+                    STACK_CREATE=false
+                    STACK_UPDATE=false
                     aws cloudformation describe-stacks --stack-name $STACK_NAME --region $AWS_REGION && $STACK_UPDATE=true || $STACK_CREATE=true
                     
                     if [ $STACK_CREATE == true ]
