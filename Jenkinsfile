@@ -36,8 +36,8 @@ pipeline{
                     stack_create=false
                     stack_update=false
                     aws cloudformation describe-stacks --stack-name $STACK_NAME --region $AWS_REGION && stack_update=true || stack_create=true
-                    ${env.STACK_CREATE}=stack_create
-                    ${env.STACK_UPDATE}=stack_update
+                    set stack_create = ${env.STACK_CREATE}
+                    set stack_update = ${env.STACK_UPDATE}
                     if [ $stack_create == true ]
                     then
                         aws cloudformation create-change-set --stack-name $STACK_NAME --change-set-name $CHANGE_SET_NAME --template-body file://$TEMPLATE_NAME --region $AWS_REGION --capabilities CAPABILITY_IAM --change-set-type CREATE
