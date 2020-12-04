@@ -8,6 +8,8 @@ pipeline{
         STACK_NAME = 'test'
         TEMPLATE_NAME = 's3-test.yml'
         CHANGE_SET_NAME = 'change-set-test'
+        STACK_CREATE = ''
+        STACK_UPDATE = ''
     }
 
     stages{
