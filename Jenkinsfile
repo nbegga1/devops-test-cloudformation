@@ -30,7 +30,6 @@ pipeline{
             steps{
                 sh '''
                     echo $STACK_CREATE
-                    echo $STACK_UPDATE
                 '''
             }
         }
