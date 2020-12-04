@@ -25,8 +25,6 @@ pipeline{
                                         echo "false"
                                     else
                                         echo "true"
-                                    else
-
                                     fi
                                     ''', returnStdout: true).trim()
             }
