@@ -23,16 +23,28 @@ pipeline{
                                      fi
                                      ''', returnStdout: true).trim()
                     if(STACK_CREATE == "true"){
-                        stage("Create"){
+                        stage("Create changeset"){
                             sh '''
-                                echo "Create stack ..."
+                                aws cloudformation create-change-set --stack-name $STACK_NAME --change-set-name $CHANGE_SET_NAME --template-body file://$TEMPLATE_NAME --region $AWS_REGION --capabilities CAPABILITY_IAM --change-set-type CREATE
+                                aws cloudformation wait change-set-create-complete --stack-name $STACK_NAME --change-set-name $CHANGE_SET_NAME --region $AWS_REGION
+                            '''
+                        }
+                        stage("Describe changeset"){
+                            sh '''
+                                aws cloudformation describe-change-set --stack-name $STACK_NAME --change-set-name $CHANGE_SET_NAME --region $AWS_REGION
                             '''
                         }
                     }
                     else if(STACK_CREATE == "false"){
-                        stage("Update"){
+                        stage("Create changeset"){
                             sh '''
-                                echo "Update stack ..."
+                                aws cloudformation create-change-set --stack-name $STACK_NAME --change-set-name $CHANGE_SET_NAME --template-body file://$TEMPLATE_NAME --region $AWS_REGION --capabilities CAPABILITY_IAM --change-set-type UPDATE
+                                aws cloudformation wait change-set-create-complete --stack-name $STACK_NAME --change-set-name $CHANGE_SET_NAME --region $AWS_REGION
+                            '''
+                        }
+                        stage("Describe changeset"){
+                            sh '''
+                                aws cloudformation describe-change-set --stack-name $STACK_NAME --change-set-name $CHANGE_SET_NAME --region $AWS_REGION
                             '''
                         }
                     }
