@@ -14,7 +14,7 @@ pipeline{
         stage("test"){
             environment{
                 STACK_CREATE = sh(script: '''
-                                    if ! aws cloudformation describe-stacks --region ${AWS_REGION} --stack-name ${STACK_NAME}; then
+                                    if ! aws cloudformation describe-stacks --region ${AWS_REGION} --stack-name ${STACK_NAME} > /dev/null/; then
                                         echo -e "\nFALSE (Stack $STACK_NAME does not exist in $AWS_REGION)"
                                     else
                                         echo -e "\nTRUE (Stack $STACK_NAME exists in $AWS_REGION)"
