@@ -35,6 +35,15 @@ pipeline{
                 '''
             }
         }
+
+        stage("test1"){
+            steps{
+                sh '''
+                    echo $STACK_CREATE
+                    echo $STACK_UPDATE
+                '''
+            }
+        }
         // // stage("Deploy lambda code"){
             
         // //     steps{
