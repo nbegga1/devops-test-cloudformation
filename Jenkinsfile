@@ -25,16 +25,20 @@ pipeline{
                 }
                 if(STACK_CREATE == "true"){
                     stage("Create"){
-                        sh '''
-                            echo "Create stack ..."
-                        '''
+                        steps{
+                            sh '''
+                                echo "Create stack ..."
+                            '''
+                        }
                     }
                 }
                 else if(STACK_CREATE == "false"){
                     stage("Update"){
-                        sh '''
-                            echo "Update stack ..."
-                        '''
+                        steps{
+                            sh '''
+                                echo "Update stack ..."
+                            '''
+                        }
                     }
                 }
             }
