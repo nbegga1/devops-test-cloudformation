@@ -14,15 +14,16 @@ pipeline{
         stage("test"){
             environment{
                 STACK_CREATE = sh(script: '''
-                                    stack_create=false
-                                    stack_update=false
-                                    ${aws cloudformation describe-stacks --stack-name $STACK_NAME --region $AWS_REGION} && stack_update=true || stack_create=true
-                                    echo $stack_create
+                                    if ! aws cloudformation describe-stacks --region ${AWS_REGION} --stack-name ${STACK_NAME}; then
+                                        echo -e "\nFALSE (Stack $STACK_NAME does not exist in $AWS_REGION)"
+                                    else
+                                        echo -e "\nTRUE (Stack $STACK_NAME exists in $AWS_REGION)"
+                                    fi
                                     ''', returnStdout: true).trim()
                 STACK_UPDATE = sh(script: '''
                                     stack_create=false
                                     stack_update=false
-                                    ${aws cloudformation describe-stacks --stack-name $STACK_NAME --region $AWS_REGION} && stack_update=true || stack_create=true
+                                    aws cloudformation describe-stacks --stack-name $STACK_NAME --region $AWS_REGION && stack_update=true || stack_create=true
                                     echo $stack_update
                                     ''', returnStdout: true).trim()
             }
