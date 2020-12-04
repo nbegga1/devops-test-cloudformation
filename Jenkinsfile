@@ -16,13 +16,13 @@ pipeline{
                 STACK_CREATE = sh(script: '''
                                     stack_create=false
                                     stack_update=false
-                                    aws cloudformation describe-stacks --stack-name $STACK_NAME --region $AWS_REGION && stack_update=true || stack_create=true
+                                    aws cloudformation describe-stacks --stack-name $STACK_NAME --region $AWS_REGION && stack_update=true || stack_create=true > /dev/null 2>&1
                                     echo $stack_create
                                     ''', returnStdout: true).trim()
                 STACK_UPDATE = sh(script: '''
                                     stack_create=false
                                     stack_update=false
-                                    aws cloudformation describe-stacks --stack-name $STACK_NAME --region $AWS_REGION && stack_update=true || stack_create=true
+                                    aws cloudformation describe-stacks --stack-name $STACK_NAME --region $AWS_REGION && stack_update=true || stack_create=true > /dev/null 2>&1
                                     echo $stack_update
                                     ''', returnStdout: true).trim()
             }
