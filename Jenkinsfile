@@ -8,44 +8,66 @@ pipeline{
         STACK_NAME = 'test'
         TEMPLATE_NAME = 's3-test.yml'
         CHANGE_SET_NAME = 'change-set-test'
-        STACK_CREATE = ''
-        STACK_UPDATE = ''
     }
 
     stages{
-        stage("test"){
-            environment{
-                STACK_CREATE = sh(script: '''
-                                    if aws cloudformation describe-stacks --region ${AWS_REGION} --stack-name ${STACK_NAME} > /dev/null; then
-                                        echo "false"
-                                    else
-                                        echo "true"
-                                    fi
-                                    ''', returnStdout: true).trim()
-                STACK_UPDATE = sh(script: '''
-                                    if aws cloudformation describe-stacks --region ${AWS_REGION} --stack-name ${STACK_NAME} > /dev/null; then
-                                        echo "true"
-                                    else
-                                        echo "false"
-                                    fi
-                                    ''', returnStdout: true).trim()
-            }
+        
+        stage("Start"){
             steps{
-                sh '''
-                    echo $STACK_CREATE
-                    echo $STACK_UPDATE
-                '''
-
-                 stage("test1"){
-                    steps{
+                script{
+                    def STACK_CREATE = sh(script: '''
+                                     if aws cloudformation describe-stacks --region ${AWS_REGION} --stack-name ${STACK_NAME} > /dev/null; then
+                                         echo "false"
+                                     else
+                                         echo "true"
+                                     fi
+                                     ''', returnStdout: true).trim()
+                }
+                if(STACK_CREATE == "true"){
+                    stage("Create"){
                         sh '''
-                            echo $STACK_CREATE
-                            echo $STACK_UPDATE
+                            echo "Create stack ..."
+                        '''
+                    }
+                }
+                else if(STACK_CREATE == "false"){
+                    stage("Update"){
+                        sh '''
+                            echo "Update stack ..."
                         '''
                     }
                 }
             }
         }
+        
+        
+        
+        
+        
+        // stage("test"){
+        //     environment{
+        //         STACK_CREATE = sh(script: '''
+        //                             if aws cloudformation describe-stacks --region ${AWS_REGION} --stack-name ${STACK_NAME} > /dev/null; then
+        //                                 echo "false"
+        //                             else
+        //                                 echo "true"
+        //                             fi
+        //                             ''', returnStdout: true).trim()
+        //         STACK_UPDATE = sh(script: '''
+        //                             if aws cloudformation describe-stacks --region ${AWS_REGION} --stack-name ${STACK_NAME} > /dev/null; then
+        //                                 echo "true"
+        //                             else
+        //                                 echo "false"
+        //                             fi
+        //                             ''', returnStdout: true).trim()
+        //     }
+        //     steps{
+        //         sh '''
+        //             echo $STACK_CREATE
+        //             echo $STACK_UPDATE
+        //         '''
+        //     }
+        // }
 
        
         // // stage("Deploy lambda code"){
