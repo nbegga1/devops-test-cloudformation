@@ -22,19 +22,15 @@ pipeline{
                                          echo "true"
                                      fi
                                      ''', returnStdout: true).trim()
-                }
-                if(STACK_CREATE == "true"){
-                    stage("Create"){
-                        steps{
+                    if(STACK_CREATE == "true"){
+                        stage("Create"){
                             sh '''
                                 echo "Create stack ..."
                             '''
                         }
                     }
-                }
-                else if(STACK_CREATE == "false"){
-                    stage("Update"){
-                        steps{
+                    else if(STACK_CREATE == "false"){
+                        stage("Update"){
                             sh '''
                                 echo "Update stack ..."
                             '''
