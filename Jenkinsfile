@@ -14,14 +14,14 @@ pipeline{
         stage("test"){
             environment{
                 STACK_CREATE = sh(script: '''
-                                    if aws cloudformation describe-stacks --region ${AWS_REGION} --stack-name ${STACK_NAME} > /dev/null/; then
+                                    if aws cloudformation describe-stacks --region ${AWS_REGION} --stack-name ${STACK_NAME} > /dev/null; then
                                         echo "true"
                                     else
                                         echo "false"
                                     fi
                                     ''', returnStdout: true).trim()
                 STACK_UPDATE = sh(script: '''
-                                    if aws cloudformation describe-stacks --region ${AWS_REGION} --stack-name ${STACK_NAME} > /dev/null/; then
+                                    if aws cloudformation describe-stacks --region ${AWS_REGION} --stack-name ${STACK_NAME} > /dev/null; then
                                         echo "false"
                                     else
                                         echo "true"
