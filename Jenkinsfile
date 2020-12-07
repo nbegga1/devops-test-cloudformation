@@ -51,6 +51,9 @@ pipeline{
                                 }
                                 else if(approveInput == 'no'){
                                     stage("Skip create/update"){
+                                        sh '''
+                                            aws cloudformation delete-stack --stack-name $STACK_NAME --region $AWS_REGION
+                                        '''
                                         echo 'Creation/Updation of $STACK_NAME will not be executed'
                                     }
                                 }
