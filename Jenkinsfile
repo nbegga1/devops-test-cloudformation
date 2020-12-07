@@ -5,7 +5,7 @@ pipeline{
         AWS_ACCESS_KEY_ID     = credentials('aws-id')
         AWS_SECRET_ACCESS_KEY = credentials('aws-secret')
         AWS_REGION = 'us-east-1'
-        STACK_NAME = 'test-1'
+        STACK_NAME = 'test1'
         TEMPLATE_NAME = 's3-test.yml'
         CHANGE_SET_NAME = 'change-set-test'
     }
@@ -16,7 +16,11 @@ pipeline{
             steps{
                 script{
                     def STACK_CREATE = sh(script: '''
-                                     echo "true"
+                                     if aws cloudformation describe-stacks --region ${AWS_REGION} --stack-name ${STACK_NAME} > /dev/null; then
+                                         echo "false"
+                                     else
+                                         echo "true"
+                                     fi
                                      ''', returnStdout: true).trim()
                     if(STACK_CREATE == "true"){
                         steps{
