@@ -21,7 +21,7 @@ pipeline{
                                      else
                                          echo "true"
                                      fi
-                                     ''', returnStdout: true).trim()
+                                     ''', returnStdout: false).trim()
                     if(STACK_CREATE == "true"){
                         steps{
                             stage("Create changeset"){
