@@ -5,7 +5,7 @@ pipeline{
         AWS_ACCESS_KEY_ID     = credentials('aws-id')
         AWS_SECRET_ACCESS_KEY = credentials('aws-secret')
         AWS_REGION = 'us-east-1'
-        STACK_NAME = 's3-test-2'
+        STACK_NAME = 's3-test'
         TEMPLATE_NAME = 's3-test.yml'
         CHANGE_SET_NAME = 'change-set-test'
     }
@@ -90,7 +90,10 @@ pipeline{
                                 }
                                 else if(approveInput == 'no'){
                                     stage("Skip create/update"){
-                                        echo 'Creation/Updation of $STACK_NAME will not be executed'
+                                        sh '''
+                                            aws cloudformation delete-change-set --stack-name $STACK_NAME --change-set-name $CHANGE_SET_NAME --region $AWS_REGION
+                                        '''
+                                        echo 'Updation of $STACK_NAME will not be executed'
                                     }
                                 }
                             }
