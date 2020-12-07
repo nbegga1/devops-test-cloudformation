@@ -5,7 +5,7 @@ pipeline{
         AWS_ACCESS_KEY_ID     = credentials('aws-id')
         AWS_SECRET_ACCESS_KEY = credentials('aws-secret')
         AWS_REGION = 'us-east-1'
-        STACK_NAME = 'hbsdhftest-1'
+        STACK_NAME = 'hbsdhftest-2'
         TEMPLATE_NAME = 's3-test.yml'
         CHANGE_SET_NAME = 'change-set-test'
     }
