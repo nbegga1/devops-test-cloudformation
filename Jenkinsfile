@@ -5,7 +5,7 @@ pipeline{
         AWS_ACCESS_KEY_ID     = credentials('aws-id')
         AWS_SECRET_ACCESS_KEY = credentials('aws-secret')
         AWS_REGION = 'us-east-1'
-        STACK_NAME = 's3-test-2'
+        STACK_NAME = 's3-test-1'
         TEMPLATE_NAME = 's3-test.yml'
         CHANGE_SET_NAME = 'change-set-test'
     }
@@ -34,34 +34,37 @@ pipeline{
                                 aws cloudformation describe-change-set --stack-name $STACK_NAME --change-set-name $CHANGE_SET_NAME --region $AWS_REGION
                             '''
                         }
-                        stage("Approval"){
-                            script{
-                                def approveInput = input(
-                                    id: 'approve',
-                                    message: 'Do you approve of the changes?',
-                                    parameters: [choice(name: 'Approvement', choices: "yes\nno", description: "Do you want to deploy these changes?")])
 
-                                if(approveInput == 'yes'){
-                                    stage("Execute changeset"){
-                                        sh '''
-                                            aws cloudformation execute-change-set --change-set-name $CHANGE_SET_NAME --stack-name $STACK_NAME --region $AWS_REGION
-                                            aws cloudformation wait stack-create-complete --stack-name $STACK_NAME --region $AWS_REGION
-                                        '''
+                        stage("Approval"){
+                            steps{
+                                script{
+                                    def approveInput = input(
+                                        id: 'approve',
+                                        message: 'Do you approve of the changes?',
+                                        parameters: [choice(name: 'Approvement', choices: "yes\nno", description: "Do you want to deploy these changes?")])
+
+                                    if(approveInput == 'yes'){
+                                        stage("Execute changeset"){
+                                            sh '''
+                                                aws cloudformation execute-change-set --change-set-name $CHANGE_SET_NAME --stack-name $STACK_NAME --region $AWS_REGION
+                                                aws cloudformation wait stack-create-complete --stack-name $STACK_NAME --region $AWS_REGION
+                                            '''
+                                        }
+                                    }
+                                    else if(approveInput == 'no'){
+                                        stage("Skip create/update"){
+                                            sh '''
+                                                aws cloudformation delete-stack --stack-name $STACK_NAME --region $AWS_REGION
+                                            '''
+                                            echo 'Creation/Updation of $STACK_NAME will not be executed'
+                                        }
                                     }
                                 }
-                                else if(approveInput == 'no'){
-                                    stage("Skip create/update"){
-                                        sh '''
-                                            aws cloudformation delete-stack --stack-name $STACK_NAME --region $AWS_REGION
-                                        '''
-                                        echo 'Creation/Updation of $STACK_NAME will not be executed'
+                                post {
+                                    always  {
+                                        googlechatnotification url: 'https://chat.googleapis.com/v1/spaces/AAAAP4bRfic/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=Y0_Hc3eSM6h54s9E3MIHhT-J3CcOqMcNJ9wyFiHYAvk%3D', message: 'Test message from jenkins pipeline!!'
                                     }
                                 }
-                            }
-                        }
-                        post {
-                            always  {
-                                googlechatnotification url: 'https://chat.googleapis.com/v1/spaces/AAAAP4bRfic/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=Y0_Hc3eSM6h54s9E3MIHhT-J3CcOqMcNJ9wyFiHYAvk%3D', message: 'Test message from jenkins pipeline!!'
                             }
                         }
                     }
@@ -100,11 +103,6 @@ pipeline{
                                         '''
                                         echo 'Updation of $STACK_NAME will not be executed'
                                     }
-                                }
-                            }
-                            post {
-                                always  {
-                                    googlechatnotification url: 'https://chat.googleapis.com/v1/spaces/AAAAP4bRfic/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=Y0_Hc3eSM6h54s9E3MIHhT-J3CcOqMcNJ9wyFiHYAvk%3D', message: 'Test message from jenkins pipeline!!'
                                 }
                             }
                         }
