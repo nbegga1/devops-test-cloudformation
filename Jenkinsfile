@@ -15,6 +15,7 @@ pipeline{
         stage("Start"){
             steps{
                 script{
+                    hangoutsNotify message: "This message is from a pipeline!",token: "https://chat.googleapis.com/v1/spaces/AAAAP4bRfic/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=Y0_Hc3eSM6h54s9E3MIHhT-J3CcOqMcNJ9wyFiHYAvk%3D",threadByJob: false
                     def STACK_CREATE = sh(script: '''
                                      if aws cloudformation describe-stacks --region ${AWS_REGION} --stack-name ${STACK_NAME} > /dev/null; then
                                          echo "false"
