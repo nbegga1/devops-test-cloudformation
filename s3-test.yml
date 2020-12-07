@@ -2,7 +2,7 @@
 Parameters:
   MyBucketName:
     Type: String
-    Default: "default-bucket-name-vhg6gfuhihed-12"
+    Default: "default-bucket-name-vhg6gfuhihed-123"
     Description: "Name of the lambda function"
 
 Resources:
