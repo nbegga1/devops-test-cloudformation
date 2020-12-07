@@ -17,12 +17,12 @@ pipeline{
                 script{
                     def STACK_CREATE = sh(script: '''
                                      if aws cloudformation describe-stacks --region ${AWS_REGION} --stack-name ${STACK_NAME} > /dev/null; then
-                                         echo false
+                                         echo "false"
                                      else
-                                         echo true
+                                         echo "true"
                                      fi
                                      ''', returnStdout: true).trim()
-                    if(STACK_CREATE == true){
+                    if(STACK_CREATE == "true"){
                         stage("Create changeset"){
                             sh '''
                                 aws cloudformation create-change-set --stack-name $STACK_NAME --change-set-name $CHANGE_SET_NAME --template-body file://$TEMPLATE_NAME --region $AWS_REGION --capabilities CAPABILITY_IAM --change-set-type CREATE
@@ -61,7 +61,7 @@ pipeline{
                         }
                     }
 
-                    else if(STACK_CREATE == false){
+                    else if(STACK_CREATE == "false"){
                         stage("Create changeset"){
                             sh '''
                                 aws cloudformation create-change-set --stack-name $STACK_NAME --change-set-name $CHANGE_SET_NAME --template-body file://$TEMPLATE_NAME --region $AWS_REGION --capabilities CAPABILITY_IAM --change-set-type UPDATE
