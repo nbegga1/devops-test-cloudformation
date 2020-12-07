@@ -16,12 +16,8 @@ pipeline{
             steps{
                 script{
                     def STACK_CREATE = sh(script: '''
-                                     if aws cloudformation describe-stacks --region ${AWS_REGION} --stack-name ${STACK_NAME} > /dev/null; then
-                                         echo "false"
-                                     else
-                                         echo "true"
-                                     fi
-                                     ''', returnStdout: false).trim()
+                                     echo "true"
+                                     ''', returnStdout: true).trim()
                     if(STACK_CREATE == "true"){
                         steps{
                             stage("Create changeset"){
