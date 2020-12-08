@@ -36,7 +36,7 @@ pipeline{
                             '''
                             def CHANGE_SET_ID = sh(script: '''
                                     sudo yum install jq > /dev/null
-                                    aws cloudformation describe-change-set --stack-name $STACK_NAME --change-set-name $CHANGE_SET_NAME --region $AWS_REGION | jq -r '.ChangeSetId'
+                                    aws cloudformation describe-change-set --stack-name $STACK_NAME --change-set-name $CHANGE_SET_NAME --region $AWS_REGION | jq -r '"stackId=" + .StackId + "&changeSetId=" +.ChangeSetId'
                                 ''', returnStdout: true).trim()
 
                             notifyChatChangesetURL(CHANGE_SET_ID)
@@ -120,7 +120,7 @@ pipeline{
 
 def notifyChatChangesetURL(String CHANGE_SET_ID){
         String CSI = URLEncoder.encode(CHANGE_SET_ID, "UTF-8");
-        String AWS_URL_BASE = "https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/changesets/changes?stackId="
+        String AWS_URL_BASE = "https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/changesets/changes?"
 
         String URL = AWS_URL_BASE+CSI
 
