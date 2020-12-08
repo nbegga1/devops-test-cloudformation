@@ -34,12 +34,15 @@ pipeline{
                             sh '''
                                 aws cloudformation describe-change-set --stack-name $STACK_NAME --change-set-name $CHANGE_SET_NAME --region $AWS_REGION
                             '''
+                            def STACK_ID = sh(script: '''
+                                    sudo yum install jq > /dev/null
+                                    aws cloudformation describe-change-set --stack-name s3-test-3 --change-set-name change-set-test --region us-east-1 | jq -r '.StackId'
+                                ''', returnStdout: true).trim()
                             def CHANGE_SET_ID = sh(script: '''
                                     sudo yum install jq > /dev/null
-                                    aws cloudformation describe-change-set --stack-name $STACK_NAME --change-set-name $CHANGE_SET_NAME --region $AWS_REGION | jq -r '"stackId=" + .StackId + "&changeSetId=" +.ChangeSetId'
+                                    aws cloudformation describe-change-set --stack-name s3-test-3 --change-set-name change-set-test --region us-east-1 | jq -r '.ChangeSetId'
                                 ''', returnStdout: true).trim()
-
-                            notifyChatChangesetURL(CHANGE_SET_ID)
+                            notifyChatChangesetURL(STACK_ID, CHANGE_SET_ID)
                         }
                         stage("Approval"){
                             script{
@@ -118,11 +121,12 @@ pipeline{
     // }
 }
 
-def notifyChatChangesetURL(String CHANGE_SET_ID){
+def notifyChatChangesetURL(String STACK_ID, String CHANGE_SET_ID){
+        String SI = URLEncoder.encode(STACK_ID, "UTF-8");
         String CSI = URLEncoder.encode(CHANGE_SET_ID, "UTF-8");
         String AWS_URL_BASE = "https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/changesets/changes?"
 
-        String URL = AWS_URL_BASE+CSI
+        String URL = AWS_URL_BASE+"stackId="+SI+"&changeSetId="+CSI
 
         googlechatnotification (
             url: "${GCHAT_URL}",
