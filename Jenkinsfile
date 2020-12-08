@@ -15,7 +15,6 @@ pipeline{
         
         stage("Start"){
             steps{
-                notifyChat()
                 script{
                     def STACK_CREATE = sh(script: '''
                                      if aws cloudformation describe-stacks --region ${AWS_REGION} --stack-name ${STACK_NAME} > /dev/null; then
@@ -40,6 +39,7 @@ pipeline{
                         stage("Approval"){
                             
                             script{
+                                notifyChat()
                                 def approveInput = input(
                                     id: 'approve',
                                     message: 'Do you approve of the changes?',
