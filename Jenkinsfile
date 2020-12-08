@@ -36,7 +36,7 @@ pipeline{
                             '''
                             def CHANGE_SET_ID = sh(script: '''
                                     sudo yum install jq
-                                    aws cloudformation describe-change-set --stack-name $STACK_NAME --change-set-name $CHANGE_SET_NAME --region $AWS_REGION | jq '.ChangeSetId'
+                                    echo aws cloudformation describe-change-set --stack-name $STACK_NAME --change-set-name $CHANGE_SET_NAME --region $AWS_REGION | jq '.ChangeSetId'
                                 ''', returnStdout: true).trim()
 
                             notifyChatChangesetURL(CHANGE_SET_ID)
