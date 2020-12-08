@@ -37,9 +37,9 @@ pipeline{
                         }
 
                         stage("Approval"){
-                            
+                            notifyChat()
                             script{
-                                notifyChat()
+                                
                                 def approveInput = input(
                                     id: 'approve',
                                     message: 'Do you approve of the changes?',
