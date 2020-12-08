@@ -122,9 +122,11 @@ def notifyChatChangesetURL(String CHANGE_SET_ID){
         String CSI = URLEncoder.encode(CHANGE_SET_ID, "UTF-8");
         String AWS_URL_BASE = "https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/changesets/changes?stackId="
 
+        String URL = AWS_URL_BASE+CSI
+
         googlechatnotification (
             url: "${GCHAT_URL}",
-            message: "${CSI}")
+            message: "${URL}")
 }
 
 
