@@ -119,11 +119,11 @@ pipeline{
 }
 
 def notifyChatChangesetURL(String CHANGE_SET_ID){
-        String CHANGE_SET_ID = URLEncoder.encode(CHANGE_SET_ID, "UTF-8");
+        String CSI = URLEncoder.encode(CHANGE_SET_ID, "UTF-8");
         
         googlechatnotification (
             url: "${GCHAT_URL}",
-            message: "${CHANGE_SET_ID}")
+            message: "${CSI}")
 }
 
 
