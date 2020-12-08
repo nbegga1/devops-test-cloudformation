@@ -4,6 +4,7 @@ pipeline{
     environment{
         AWS_ACCESS_KEY_ID     = credentials('aws-id')
         AWS_SECRET_ACCESS_KEY = credentials('aws-secret')
+        GCHAT_URL = credentials('gchat-url')
         AWS_REGION = 'us-east-1'
         STACK_NAME = 's3-test-1'
         TEMPLATE_NAME = 's3-test.yml'
@@ -14,6 +15,7 @@ pipeline{
         
         stage("Start"){
             steps{
+                notifyChat()
                 script{
                     def STACK_CREATE = sh(script: '''
                                      if aws cloudformation describe-stacks --region ${AWS_REGION} --stack-name ${STACK_NAME} > /dev/null; then
@@ -105,9 +107,16 @@ pipeline{
             }
         }
     }
-     post {
-        always  {
-            googlechatnotification url: 'https://chat.googleapis.com/v1/spaces/AAAAP4bRfic/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=Y0_Hc3eSM6h54s9E3MIHhT-J3CcOqMcNJ9wyFiHYAvk%3D', message: 'Build was succesfull.', notifySuccess: true
-        }
+    def notifyChat(){
+        googlechatnotification (
+            url: ${env.GCHAT_URL},
+            message: 'Test.',
+            sameThreadNotification: true,
+            suppressInfoLogger: true)
     }
+    // post {
+    //     always  {
+    //         googlechatnotification url: 'https://chat.googleapis.com/v1/spaces/AAAAP4bRfic/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=Y0_Hc3eSM6h54s9E3MIHhT-J3CcOqMcNJ9wyFiHYAvk%3D', message: 'Build was succesfull.', notifySuccess: true
+    //     }
+    // }
 }
