@@ -4,7 +4,7 @@ pipeline{
     environment{
         AWS_ACCESS_KEY_ID     = credentials('aws-id')
         AWS_SECRET_ACCESS_KEY = credentials('aws-secret')
-        GCHAT_URL = credentials('gchat-url')
+        GCHAT_URL = credentials('credential_id_for_room1')
         AWS_REGION = 'us-east-1'
         STACK_NAME = 's3-test-1'
         TEMPLATE_NAME = 's3-test.yml'
@@ -116,7 +116,7 @@ pipeline{
 
 def notifyChat(){
         googlechatnotification (
-            url: "id:credential_id_for_room1",
+            url: "id:${GCHAT_URL}",
             message: 'Test.',
             sameThreadNotification: true,
             suppressInfoLogger: true)
