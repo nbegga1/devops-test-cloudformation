@@ -35,7 +35,7 @@ pipeline{
                                 aws cloudformation describe-change-set --stack-name $STACK_NAME --change-set-name $CHANGE_SET_NAME --region $AWS_REGION
                             '''
                             def CHANGE_SET_ID = sh(script: '''
-                                    sudo yum install jq
+                                    sudo yum install jq > /dev/null
                                     aws cloudformation describe-change-set --stack-name $STACK_NAME --change-set-name $CHANGE_SET_NAME --region $AWS_REGION | jq -r '.ChangeSetId'
                                 ''', returnStdout: true).trim()
 
