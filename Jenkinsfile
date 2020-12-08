@@ -24,7 +24,7 @@ pipeline{
                                      fi
                                      ''', returnStdout: true).trim()
                     if(STACK_CREATE == "true"){
-                        steps{
+                        //steps{
                             stage("Create changeset"){
                                 sh '''
                                     aws cloudformation create-change-set --stack-name $STACK_NAME --change-set-name $CHANGE_SET_NAME --template-body file://$TEMPLATE_NAME --region $AWS_REGION --capabilities CAPABILITY_IAM --change-set-type CREATE
@@ -62,7 +62,7 @@ pipeline{
                                     }
                                 }                        
                             }
-                        }
+                        //}
                     }
 
                     else if(STACK_CREATE == "false"){
