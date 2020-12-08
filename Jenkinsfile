@@ -116,7 +116,7 @@ pipeline{
 
 def notifyChat(){
         googlechatnotification (
-            url: 'id:${env.GCHAT_URL}',
+            url: 'id:${GCHAT_URL}',
             message: 'Test.',
             sameThreadNotification: true,
             suppressInfoLogger: true)
