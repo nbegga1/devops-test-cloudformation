@@ -121,7 +121,7 @@ pipeline{
 def notifyChatChangesetURL(CHANGE_SET_ID){
         googlechatnotification (
             url: "${GCHAT_URL}",
-            message: "${GCHAT_URL}")
+            message: CHANGE_SET_ID)
 }
 
 
