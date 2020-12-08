@@ -31,11 +31,13 @@ pipeline{
                             '''
                         }
                         stage("Describe changeset"){
-                            sh '''
-                                aws cloudformation describe-change-set --stack-name $STACK_NAME --change-set-name $CHANGE_SET_NAME --region $AWS_REGION
-                            '''
+                            steps{
+                                sh '''
+                                    aws cloudformation describe-change-set --stack-name $STACK_NAME --change-set-name $CHANGE_SET_NAME --region $AWS_REGION
+                                '''
+                                notifyChatChangesetURL()
+                            }
                         }
-                        notifyChat()
                         stage("Approval"){
                             script{
                                 
@@ -113,8 +115,15 @@ pipeline{
     // }
 }
 
+def notifyChatChangesetURL(){
+        googlechatnotification (
+            url: "${GCHAT_URL}",
+            message: 'Change set url....')
+}
+
+
 def notifyChat(){
         googlechatnotification (
             url: "${GCHAT_URL}",
-            message: 'Test.')
+            message: 'Build succesfull.')
 }
