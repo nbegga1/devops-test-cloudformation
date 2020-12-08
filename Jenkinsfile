@@ -34,6 +34,7 @@ pipeline{
                             sh '''
                                 aws cloudformation describe-change-set --stack-name $STACK_NAME --change-set-name $CHANGE_SET_NAME --region $AWS_REGION
                             '''
+
                             notifyChatChangesetURL()
                         }
                         stage("Approval"){
@@ -116,7 +117,7 @@ pipeline{
 def notifyChatChangesetURL(){
         googlechatnotification (
             url: "${GCHAT_URL}",
-            message: 'Change set url....')
+            message: 'Change set url...')
 }
 
 
