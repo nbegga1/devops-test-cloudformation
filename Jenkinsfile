@@ -118,6 +118,5 @@ def notifyChat(){
         googlechatnotification (
             url: "id:${GCHAT_URL}",
             message: 'Test.',
-            sameThreadNotification: true,
-            suppressInfoLogger: true)
+            sameThreadNotification: true)
 }
