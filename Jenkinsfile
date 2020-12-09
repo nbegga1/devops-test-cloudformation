@@ -120,8 +120,8 @@ pipeline{
                         }
                     }
                 }
+                notifyChat()
             }
-            notifyChat()
         }
     }
     // post {
