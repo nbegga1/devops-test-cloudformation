@@ -145,7 +145,7 @@ def notifyChatChangesetURL(String STACK_ID, String CHANGE_SET_ID){
 
 
 def notifyChat(){
-        String gchatMessage = "${BRANCH_NAME}" + "${BUILD_NUMBER}"
+        String gchatMessage = "${env.BRANCH_NAME}" + "${env.BUILD_NUMBER}"
 
         googlechatnotification (
             url: "${GCHAT_URL}",
