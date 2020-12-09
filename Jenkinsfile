@@ -122,8 +122,8 @@ pipeline{
                 }
             }
         }
+        notifyChat()
     }
-    notifyChat()
     // post {
     //     always  {
     //         googlechatnotification url: 'https://chat.googleapis.com/v1/spaces/AAAAP4bRfic/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=Y0_Hc3eSM6h54s9E3MIHhT-J3CcOqMcNJ9wyFiHYAvk%3D', message: 'Build was succesfull.', notifySuccess: true
