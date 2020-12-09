@@ -121,8 +121,8 @@ pipeline{
                     }
                 }
             }
+            notifyChat()
         }
-        notifyChat()
     }
     // post {
     //     always  {
