@@ -145,7 +145,7 @@ def notifyChatChangesetURL(String STACK_ID, String CHANGE_SET_ID){
 
 
 def notifyChat(){
-        String gchatMessage = "Notification from Jenkins:\n" + "Pipeline name: ${env.JOB_BASE_NAME}\n" + "Build number:${env.BUILD_NUMBER}"
+        String gchatMessage = "Notification from Jenkins:\n" + "Pipeline name: ${env.JOB_BASE_NAME}\n" + "Build number: ${env.BUILD_NUMBER}\n" + "Branch: master (default because this is a single branch pipeline)\n" + "Result: Success"
 
         googlechatnotification (
             url: "${GCHAT_URL}",
