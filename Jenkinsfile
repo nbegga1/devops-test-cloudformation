@@ -130,6 +130,7 @@ pipeline{
         failure {
             notifyChat("failure")
         }
+    }
 }
 
 def notifyChatChangesetURL(String STACK_ID, String CHANGE_SET_ID){
@@ -151,7 +152,7 @@ def notifyChat(String result){
         // Not complete yet
         //String gchatMessage = "Notification from Jenkins:\n" + "Pipeline name: ${env.JOB_BASE_NAME}\n" + "Build number: ${env.BUILD_NUMBER}\n" + "Branch: master (default because this is a single branch pipeline)\n" + "Result: Success"
         String gchatMessage = result
-        
+
         googlechatnotification (
             url: "${GCHAT_URL}",
             message: "${gchatMessage}")
