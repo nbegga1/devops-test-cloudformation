@@ -120,10 +120,16 @@ pipeline{
                         }
                     }
                 }
-                notifyChat()
             }
         }
     }
+    post {
+        success {
+            notifyChat("success")
+        }
+        failure {
+            notifyChat("failure")
+        }
 }
 
 def notifyChatChangesetURL(String STACK_ID, String CHANGE_SET_ID){
@@ -134,17 +140,18 @@ def notifyChatChangesetURL(String STACK_ID, String CHANGE_SET_ID){
         String URL = AWS_URL_BASE+"stackId="+STACK_ID_ENC+"&changeSetId="+CHANGE_SET_ID_ENC
 
         String gchatMessage = "Link to view change set:\n"+URL
-        
+
         googlechatnotification (
             url: "${GCHAT_URL}",
             message: "${gchatMessage}")
 }
 
 
-def notifyChat(){
+def notifyChat(String result){
         // Not complete yet
-        String gchatMessage = "Notification from Jenkins:\n" + "Pipeline name: ${env.JOB_BASE_NAME}\n" + "Build number: ${env.BUILD_NUMBER}\n" + "Branch: master (default because this is a single branch pipeline)\n" + "Result: Success"
-
+        //String gchatMessage = "Notification from Jenkins:\n" + "Pipeline name: ${env.JOB_BASE_NAME}\n" + "Build number: ${env.BUILD_NUMBER}\n" + "Branch: master (default because this is a single branch pipeline)\n" + "Result: Success"
+        String gchatMessage = result
+        
         googlechatnotification (
             url: "${GCHAT_URL}",
             message: "${gchatMessage}")
