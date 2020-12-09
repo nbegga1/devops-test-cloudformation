@@ -43,9 +43,6 @@ pipeline{
                                     aws cloudformation describe-change-set --stack-name s3-test-3 --change-set-name change-set-test --region us-east-1 | jq -r '.ChangeSetId'
                                 ''', returnStdout: true).trim()
                             notifyChatChangesetURL(STACK_ID, CHANGE_SET_ID)
-
-
-                            
                         }
                         stage("Approval"){
                             script{
