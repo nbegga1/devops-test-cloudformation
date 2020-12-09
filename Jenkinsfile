@@ -111,8 +111,8 @@ pipeline{
                         }
                     }
                 }
+                notifyChat()
             }
-            notifyChat()
         }
     }
     // post {
