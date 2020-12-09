@@ -124,27 +124,25 @@ pipeline{
             }
         }
     }
-    // post {
-    //     always  {
-    //         googlechatnotification url: 'https://chat.googleapis.com/v1/spaces/AAAAP4bRfic/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=Y0_Hc3eSM6h54s9E3MIHhT-J3CcOqMcNJ9wyFiHYAvk%3D', message: 'Build was succesfull.', notifySuccess: true
-    //     }
-    // }
 }
 
 def notifyChatChangesetURL(String STACK_ID, String CHANGE_SET_ID){
-        String SI = URLEncoder.encode(STACK_ID, "UTF-8");
-        String CSI = URLEncoder.encode(CHANGE_SET_ID, "UTF-8");
+        String STACK_ID_ENC = URLEncoder.encode(STACK_ID, "UTF-8");
+        String CHANGE_SET_ID_ENC = URLEncoder.encode(CHANGE_SET_ID, "UTF-8");
         String AWS_URL_BASE = "https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/changesets/changes?"
 
-        String URL = AWS_URL_BASE+"stackId="+SI+"&changeSetId="+CSI
+        String URL = AWS_URL_BASE+"stackId="+STACK_ID_ENC+"&changeSetId="+CHANGE_SET_ID_ENC
 
+        String gchatMessage = "Link to view change set:\n"+URL
+        
         googlechatnotification (
             url: "${GCHAT_URL}",
-            message: "${URL}")
+            message: "${gchatMessage}")
 }
 
 
 def notifyChat(){
+        // Not complete yet
         String gchatMessage = "Notification from Jenkins:\n" + "Pipeline name: ${env.JOB_BASE_NAME}\n" + "Build number: ${env.BUILD_NUMBER}\n" + "Branch: master (default because this is a single branch pipeline)\n" + "Result: Success"
 
         googlechatnotification (
