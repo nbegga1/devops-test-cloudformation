@@ -25,7 +25,7 @@ pipeline{
                     if(STACK_CREATE == "true"){
                         stage("Create changeset"){
                             sh '''
-                                aws cloudformation create-change-set --stack-name $STACK_NAME --change-set-name cg-${env.BUILD_NUMBER} --template-body file://$TEMPLATE_NAME --region $AWS_REGION --capabilities CAPABILITY_IAM --change-set-type CREATE
+                                aws cloudformation create-change-set --stack-name $STACK_NAME --change-set-name cg-${BUILD_NUMBER} --template-body file://$TEMPLATE_NAME --region $AWS_REGION --capabilities CAPABILITY_IAM --change-set-type CREATE
                                 aws cloudformation wait change-set-create-complete --stack-name $STACK_NAME --change-set-name cg-${env.BUILD_NUMBER} --region $AWS_REGION
                             '''
                         }
