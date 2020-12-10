@@ -11,6 +11,14 @@ pipeline{
     }
 
     stages{
+        stage("Wait for Remote System") {
+
+            // Call a remote system to start execution, passing a callback url
+            sh "curl -X POST -H 'Content-Type: application/json' -d '{\"callback\":\"${BUILD_URL}input/Async-input/proceedEmpty\"}' ${GCHAT_URL}"
+
+            // Block and wait for the remote system to callback
+            input id: 'Async-input', message: 'Waiting for remote system'
+        }
         
         stage("Start"){
             steps{
