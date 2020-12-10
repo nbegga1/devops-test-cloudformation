@@ -35,11 +35,11 @@ pipeline{
                             '''
                             def STACK_ID = sh(script: '''
                                     sudo yum install jq > /dev/null
-                                    aws cloudformation describe-change-set --stack-name s3-test-3 --change-set-name change-set-test --region us-east-1 | jq -r '.StackId'
+                                    aws cloudformation describe-change-set --stack-name s3-test-3 --change-set-name cg-${BUILD_NUMBER} --region us-east-1 | jq -r '.StackId'
                                 ''', returnStdout: true).trim()
                             def CHANGE_SET_ID = sh(script: '''
                                     sudo yum install jq > /dev/null
-                                    aws cloudformation describe-change-set --stack-name s3-test-3 --change-set-name change-set-test --region us-east-1 | jq -r '.ChangeSetId'
+                                    aws cloudformation describe-change-set --stack-name s3-test-3 --change-set-name cg-${BUILD_NUMBER} --region us-east-1 | jq -r '.ChangeSetId'
                                 ''', returnStdout: true).trim()
                             notifyChatChangesetURL(STACK_ID, CHANGE_SET_ID)
                         }
@@ -84,11 +84,11 @@ pipeline{
                             '''
                             def STACK_ID = sh(script: '''
                                     sudo yum install jq > /dev/null
-                                    aws cloudformation describe-change-set --stack-name s3-test-3 --change-set-name change-set-test --region us-east-1 | jq -r '.StackId'
+                                    aws cloudformation describe-change-set --stack-name s3-test-3 --change-set-name cg-${BUILD_NUMBER} --region us-east-1 | jq -r '.StackId'
                                 ''', returnStdout: true).trim()
                             def CHANGE_SET_ID = sh(script: '''
                                     sudo yum install jq > /dev/null
-                                    aws cloudformation describe-change-set --stack-name s3-test-3 --change-set-name change-set-test --region us-east-1 | jq -r '.ChangeSetId'
+                                    aws cloudformation describe-change-set --stack-name s3-test-3 --change-set-name cg-${BUILD_NUMBER} --region us-east-1 | jq -r '.ChangeSetId'
                                 ''', returnStdout: true).trim()
                             notifyChatChangesetURL(STACK_ID, CHANGE_SET_ID)
                         }
