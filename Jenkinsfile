@@ -26,12 +26,12 @@ pipeline{
                         stage("Create changeset"){
                             sh '''
                                 aws cloudformation create-change-set --stack-name $STACK_NAME --change-set-name cg-${BUILD_NUMBER} --template-body file://$TEMPLATE_NAME --region $AWS_REGION --capabilities CAPABILITY_IAM --change-set-type CREATE
-                                aws cloudformation wait change-set-create-complete --stack-name $STACK_NAME --change-set-name cg-${env.BUILD_NUMBER} --region $AWS_REGION
+                                aws cloudformation wait change-set-create-complete --stack-name $STACK_NAME --change-set-name cg-${BUILD_NUMBER} --region $AWS_REGION
                             '''
                         }
                         stage("Describe changeset"){
                             sh '''
-                                aws cloudformation describe-change-set --stack-name $STACK_NAME --change-set-name cg-${env.BUILD_NUMBER} --region $AWS_REGION
+                                aws cloudformation describe-change-set --stack-name $STACK_NAME --change-set-name cg-${BUILD_NUMBER} --region $AWS_REGION
                             '''
                             def STACK_ID = sh(script: '''
                                     sudo yum install jq > /dev/null
@@ -54,7 +54,7 @@ pipeline{
                                 if(approveInput == 'yes'){
                                     stage("Execute changeset"){
                                         sh '''
-                                            aws cloudformation execute-change-set --change-set-name cg-${env.BUILD_NUMBER} --stack-name $STACK_NAME --region $AWS_REGION
+                                            aws cloudformation execute-change-set --change-set-name cg-${BUILD_NUMBER} --stack-name $STACK_NAME --region $AWS_REGION
                                             aws cloudformation wait stack-create-complete --stack-name $STACK_NAME --region $AWS_REGION
                                         '''
                                     }
@@ -74,13 +74,13 @@ pipeline{
                     else if(STACK_CREATE == "false"){
                         stage("Create changeset"){
                             sh '''
-                                aws cloudformation create-change-set --stack-name $STACK_NAME --change-set-name cg-${env.BUILD_NUMBER} --template-body file://$TEMPLATE_NAME --region $AWS_REGION --capabilities CAPABILITY_IAM --change-set-type UPDATE
-                                aws cloudformation wait change-set-create-complete --stack-name $STACK_NAME --change-set-name cg-${env.BUILD_NUMBER} --region $AWS_REGION
+                                aws cloudformation create-change-set --stack-name $STACK_NAME --change-set-name cg-${BUILD_NUMBER} --template-body file://$TEMPLATE_NAME --region $AWS_REGION --capabilities CAPABILITY_IAM --change-set-type UPDATE
+                                aws cloudformation wait change-set-create-complete --stack-name $STACK_NAME --change-set-name cg-${BUILD_NUMBER} --region $AWS_REGION
                             '''
                         }
                         stage("Describe changeset"){
                             sh '''
-                                aws cloudformation describe-change-set --stack-name $STACK_NAME --change-set-name cg-${env.BUILD_NUMBER} --region $AWS_REGION
+                                aws cloudformation describe-change-set --stack-name $STACK_NAME --change-set-name cg-${BUILD_NUMBER} --region $AWS_REGION
                             '''
                             def STACK_ID = sh(script: '''
                                     sudo yum install jq > /dev/null
@@ -102,7 +102,7 @@ pipeline{
                                 if(approveInput == 'yes'){
                                     stage("Execute changeset"){
                                         sh '''
-                                            aws cloudformation execute-change-set --change-set-name cg-${env.BUILD_NUMBER} --stack-name $STACK_NAME --region $AWS_REGION
+                                            aws cloudformation execute-change-set --change-set-name cg-${BUILD_NUMBER} --stack-name $STACK_NAME --region $AWS_REGION
                                             aws cloudformation wait stack-update-complete --stack-name $STACK_NAME --region $AWS_REGION
                                         '''
                                     }
@@ -110,7 +110,7 @@ pipeline{
                                 else if(approveInput == 'no'){
                                     stage("Skip create/update"){
                                         sh '''
-                                            aws cloudformation delete-change-set --stack-name $STACK_NAME --change-set-name cg-${env.BUILD_NUMBER} --region $AWS_REGION
+                                            aws cloudformation delete-change-set --stack-name $STACK_NAME --change-set-name cg-${BUILD_NUMBER} --region $AWS_REGION
                                         '''
                                         echo 'Updation of $STACK_NAME will not be executed'
                                     }
