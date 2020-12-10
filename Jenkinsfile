@@ -15,6 +15,7 @@ pipeline{
         stage("Start"){
             steps{
                 script{
+                    notifyChatApprove()
                     def STACK_CREATE = sh(script: '''
                                      if aws cloudformation describe-stacks --region ${AWS_REGION} --stack-name ${STACK_NAME} > /dev/null; then
                                          echo "false"
@@ -161,4 +162,14 @@ def notifyChat(String result){
         googlechatnotification (
             url: "${GCHAT_URL}",
             message: "${gchatMessage}")
+}
+
+
+def notifyChatApprove(){
+        // Not complete yet
+        googlechatnotification (
+            url: "${GCHAT_URL}",
+            message: input( id: 'approve',
+                            message: 'Do you approve of the changes?',
+                            parameters: [choice(name: 'Approvement', choices: "yes\nno", description: "Do you want to deploy these changes?")]))
 }
