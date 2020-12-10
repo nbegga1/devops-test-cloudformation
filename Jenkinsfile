@@ -11,15 +11,6 @@ pipeline{
     }
 
     stages{
-        stage("Wait for Remote System") {
-
-            // Call a remote system to start execution, passing a callback url
-            sh "curl -X POST -H 'Content-Type: application/json' -d '{\"callback\":\"${BUILD_URL}input/Async-input/proceedEmpty\"}' ${GCHAT_URL}"
-
-            // Block and wait for the remote system to callback
-            input id: 'Async-input', message: 'Waiting for remote system'
-        }
-        
         stage("Start"){
             steps{
                 script{
@@ -50,6 +41,14 @@ pipeline{
                                     aws cloudformation describe-change-set --stack-name s3-test-3 --change-set-name cg-${BUILD_NUMBER} --region us-east-1 | jq -r '.ChangeSetId'
                                 ''', returnStdout: true).trim()
                             notifyChatChangesetURL(STACK_ID, CHANGE_SET_ID)
+                        }
+                        stage("Wait for Remote System") {
+
+                            // Call a remote system to start execution, passing a callback url
+                            sh "curl -X POST -H 'Content-Type: application/json' -d '{\"callback\":\"${BUILD_URL}input/Async-input/proceedEmpty\"}' ${GCHAT_URL}"
+
+                            // Block and wait for the remote system to callback
+                            input id: 'Async-input', message: 'Waiting for remote system'
                         }
                         stage("Approval"){
                             script{
