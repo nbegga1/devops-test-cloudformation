@@ -41,6 +41,7 @@ pipeline{
                                     aws cloudformation describe-change-set --stack-name s3-test-3 --change-set-name cg-${BUILD_NUMBER} --region us-east-1 | jq -r '.ChangeSetId'
                                 ''', returnStdout: true).trim()
                             notifyChatChangesetURL(STACK_ID, CHANGE_SET_ID)
+                            notifyTest()
                         }
                         stage("Approval"){
                             script{
@@ -160,6 +161,13 @@ def notifyChat(String result){
         googlechatnotification (
             url: "${GCHAT_URL}",
             message: "${gchatMessage}")
+}
+
+def notifyTest(){
+
+        googlechatnotification (
+            url: "${GCHAT_URL}",
+            message: {"text": "Your pizza delivery *has arrived*!\nThank you for using _Pizza Bot!_"})
 }
 
 
