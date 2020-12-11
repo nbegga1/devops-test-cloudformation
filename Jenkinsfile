@@ -41,7 +41,10 @@ pipeline{
                                     aws cloudformation describe-change-set --stack-name s3-test-3 --change-set-name cg-${BUILD_NUMBER} --region us-east-1 | jq -r '.ChangeSetId'
                                 ''', returnStdout: true).trim()
                             notifyChatChangesetURL(STACK_ID, CHANGE_SET_ID)
-                            notifyTest()
+                            def props = readJSON text = '{"text": "Your pizza delivery *has arrived*!\nThank you for using _Pizza Bot!_"}'
+                            googlechatnotification (
+                                url: "${GCHAT_URL}",
+                                message: props)
                         }
                         stage("Approval"){
                             script{
@@ -91,7 +94,10 @@ pipeline{
                                     aws cloudformation describe-change-set --stack-name s3-test-3 --change-set-name cg-${BUILD_NUMBER} --region us-east-1 | jq -r '.ChangeSetId'
                                 ''', returnStdout: true).trim()
                             notifyChatChangesetURL(STACK_ID, CHANGE_SET_ID)
-                            notifyTest()
+                            def props = readJSON text = '{"text": "Your pizza delivery *has arrived*!\nThank you for using _Pizza Bot!_"}'
+                            googlechatnotification (
+                                url: "${GCHAT_URL}",
+                                message: props)
                         }
                         stage("Approval"){
                             script{
@@ -164,15 +170,15 @@ def notifyChat(String result){
             message: "${gchatMessage}")
 }
 
-def notifyTest(){
-        import groovy.json.JsonSlurper
+// def notifyTest(){
+        
 
-        def slurped = new JsonSlurper().parseText('{"text": "Your pizza delivery *has arrived*!\nThank you for using _Pizza Bot!_"}')
+//         def slurped = new JsonSlurper().parseText('{"text": "Your pizza delivery *has arrived*!\nThank you for using _Pizza Bot!_"}')
 
-        googlechatnotification (
-            url: "${GCHAT_URL}",
-            message: ${slurped})
-}
+        // googlechatnotification (
+        //     url: "${GCHAT_URL}",
+        //     message: ${slurped})
+// }
 
 
 def notifyChatApprove(){
