@@ -164,11 +164,11 @@ def notifyChat(String result){
 }
 
 def notifyTest(){
-        def json = new JsonSlurperClassic.parseText('{"text": "Your pizza delivery *has arrived*!\nThank you for using _Pizza Bot!_"}')
+        def props = readJSON text: '{"text": "Your pizza delivery *has arrived*!\nThank you for using _Pizza Bot!_"}'    
 
         googlechatnotification (
             url: "${GCHAT_URL}",
-            message: ${json})
+            message: ${props})
 }
 
 
