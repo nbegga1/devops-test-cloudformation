@@ -41,10 +41,7 @@ pipeline{
                                     aws cloudformation describe-change-set --stack-name s3-test-3 --change-set-name cg-${BUILD_NUMBER} --region us-east-1 | jq -r '.ChangeSetId'
                                 ''', returnStdout: true).trim()
                             notifyChatChangesetURL(STACK_ID, CHANGE_SET_ID)
-                            def props = readJSON text = '{"text": "Your pizza delivery *has arrived*!\nThank you for using _Pizza Bot!_"}'
-                            googlechatnotification (
-                                url: "${GCHAT_URL}",
-                                message: "${props}")
+                            notifyTest()
                         }
                         stage("Approval"){
                             script{
@@ -94,10 +91,7 @@ pipeline{
                                     aws cloudformation describe-change-set --stack-name s3-test-3 --change-set-name cg-${BUILD_NUMBER} --region us-east-1 | jq -r '.ChangeSetId'
                                 ''', returnStdout: true).trim()
                             notifyChatChangesetURL(STACK_ID, CHANGE_SET_ID)
-                            def props = readJSON text = '{"text": "Your pizza delivery *has arrived*!\nThank you for using _Pizza Bot!_"}'
-                            googlechatnotification (
-                                url: "${GCHAT_URL}",
-                                message: "${props}")
+                            notifyTest()
                         }
                         stage("Approval"){
                             script{
@@ -170,15 +164,15 @@ def notifyChat(String result){
             message: "${gchatMessage}")
 }
 
-// def notifyTest(){
+def notifyTest(){
+        @Library('jenkins-google-chat-notification')
+
+        sendGoogleChat("This is a _simple_ text message " +
+            "with a <https://github.com/mkutz/jenkins-google-chat-notification|link>" +
+            "\nand a line break, " +
+            "which might be interesting to <users/all> users in the Group.")
         
-
-//         def slurped = new JsonSlurper().parseText('{"text": "Your pizza delivery *has arrived*!\nThank you for using _Pizza Bot!_"}')
-
-        // googlechatnotification (
-        //     url: "${GCHAT_URL}",
-        //     message: ${slurped})
-// }
+}
 
 
 def notifyChatApprove(){
