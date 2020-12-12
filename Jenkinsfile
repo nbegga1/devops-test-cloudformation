@@ -167,10 +167,13 @@ def notifyChat(String result){
 def notifyTest(){
         @Library('jenkins-google-chat-notification')
 
-        sendGoogleChat("This is a _simple_ text message " +
-            "with a <https://github.com/mkutz/jenkins-google-chat-notification|link>" +
-            "\nand a line break, " +
-            "which might be interesting to <users/all> users in the Group.")
+        sendGoogleChat(
+            url: "${GCHAT_URL}",
+            message:
+                "This is a _simple_ text message " +
+                "with a <https://github.com/mkutz/jenkins-google-chat-notification|link>" +
+                "\nand a line break, " +
+                "which might be interesting to <users/all> users in the Group.")
         
 }
 
