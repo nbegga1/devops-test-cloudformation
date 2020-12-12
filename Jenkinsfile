@@ -97,7 +97,7 @@ pipeline{
                             def props = readJSON text = '{"text": "Your pizza delivery *has arrived*!\nThank you for using _Pizza Bot!_"}'
                             googlechatnotification (
                                 url: "${GCHAT_URL}",
-                                message: props)
+                                message: "${props}")
                         }
                         stage("Approval"){
                             script{
