@@ -4,7 +4,7 @@ pipeline{
     environment{
         AWS_ACCESS_KEY_ID     = credentials('aws-id')
         AWS_SECRET_ACCESS_KEY = credentials('aws-secret')
-        GCHAT_URL = credentials('credential_id_for_room1')
+        GOOGLE_CHAT_URL = credentials('credential_id_for_room1')
         AWS_REGION = 'us-east-1'
         STACK_NAME = 's3-test-3'
         TEMPLATE_NAME = 's3-test.yml'
@@ -167,13 +167,10 @@ def notifyChat(String result){
 def notifyTest(){
         @Library('jenkins-google-chat-notification')
 
-        sendGoogleChat(
-                message: "This is a _simple_ text message " +
-                    "with a <https://github.com/mkutz/jenkins-google-chat-notification|link>" +
-                    "\nand a line break, " +
-                    "which might be interesting to <users/all> users in the Group.",
-                url: "${GCHAT_URL}"
-                )
+        sendGoogleChat("This is a _simple_ text message " +
+            "with a <https://github.com/mkutz/jenkins-google-chat-notification|link>" +
+            "\nand a line break, " +
+            "which might be interesting to <users/all> users in the Group.")
         
 }
 
