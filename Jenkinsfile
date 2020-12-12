@@ -144,7 +144,10 @@ def notifyChatChangesetURL(String STACK_ID, String CHANGE_SET_ID){
 
         googlechatnotification (
             url: "${GOOGLE_CHAT_URL}",
-            message: "${gchatMessage}")
+            message: "This is a <strike>simple</strike> <i>card<i> text message " +
+                        "with a <a href=\"https://github.com/mkutz/jenkins-google-chat-notification\">link</a>" +
+                        "<br>and a line break, " +
+                        "which does not support mention @all users in the Group.")
 }
 
 
@@ -161,10 +164,7 @@ def notifyChat(String result){
 
         googlechatnotification (
             url: "${GOOGLE_CHAT_URL}",
-            message: "This is a <strike>simple</strike> <i>card<i> text message " +
-                        "with a <a href=\"https://github.com/mkutz/jenkins-google-chat-notification\">link</a>" +
-                        "<br>and a line break, " +
-                        "which does not support mention @all users in the Group.")
+            message: "${gchatMessage}")
 }
 @Library('jenkins-google-chat-notification')
 def notifyTest(){
