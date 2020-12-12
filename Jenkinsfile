@@ -169,19 +169,19 @@ def notifyTest(){
 
         sendGoogleChatBuildReport(Version: env.VERSION,
             message: "This is a <strike>simple</strike> <i>card<i> text message " +
-                        'with a <form action="http://www.foo.com" method="POST">
+                        "with a <form action=\"http://www.foo.com\" method=\"POST\">
                                     <div>
-                                        <label for="say">What greeting do you want to say?</label>
-                                        <input name="say" id="say" value="Hi">
+                                        <label for=\"say\">What greeting do you want to say?</label>
+                                        <input name=\"say\" id=\"say\" value=\"Hi\">
                                     </div>
                                     <div>
-                                        <label for="to">Who do you want to say it to?</label>
-                                        <input name="to" id="to" value="Mom">
+                                        <label for=\"to\">Who do you want to say it to?</label>
+                                        <input name=\"to\" id=\"to\" value=\"Mom\">
                                     </div>
                                     <div>
                                         <button>Send my greetings</button>
                                     </div>
-                                    </form>' +
+                                    </form>" +
                         "<br>and a line break, " +
                         "which does not support mention @all users in the Group.")
         
