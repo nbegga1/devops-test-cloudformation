@@ -143,7 +143,7 @@ def notifyChatChangesetURL(String STACK_ID, String CHANGE_SET_ID){
         String gchatMessage = "Link to view change set:\n"+URL
 
         googlechatnotification (
-            url: "${GCHAT_URL}",
+            url: "${GOOGLE_CHAT_URL}",
             message: "${gchatMessage}")
 }
 
@@ -160,7 +160,7 @@ def notifyChat(String result){
         }
 
         googlechatnotification (
-            url: "${GCHAT_URL}",
+            url: "${GOOGLE_CHAT_URL}",
             message: "${gchatMessage}")
 }
 @Library('jenkins-google-chat-notification')
@@ -178,7 +178,7 @@ def notifyTest(){
 def notifyChatApprove(){
         // Not complete yet
         googlechatnotification (
-            url: "${GCHAT_URL}",
+            url: "${GOOGLE_CHAT_URL}",
             message: input( id: 'approve',
                             message: 'Do you approve of the changes?',
                             parameters: [choice(name: 'Approvement', choices: "yes\nno", description: "Do you want to deploy these changes?")]))
