@@ -41,7 +41,7 @@ pipeline{
                                     aws cloudformation describe-change-set --stack-name s3-test-3 --change-set-name cg-${BUILD_NUMBER} --region us-east-1 | jq -r '.ChangeSetId'
                                 ''', returnStdout: true).trim()
                             notifyChatChangesetURL(STACK_ID, CHANGE_SET_ID)
-                            //notifyTest()
+                            notifyTest()
                         }
                         stage("Approval"){
                             script{
@@ -91,7 +91,7 @@ pipeline{
                                     aws cloudformation describe-change-set --stack-name s3-test-3 --change-set-name cg-${BUILD_NUMBER} --region us-east-1 | jq -r '.ChangeSetId'
                                 ''', returnStdout: true).trim()
                             notifyChatChangesetURL(STACK_ID, CHANGE_SET_ID)
-                            //notifyTest()
+                            notifyTest()
                         }
                         stage("Approval"){
                             script{
@@ -144,10 +144,7 @@ def notifyChatChangesetURL(String STACK_ID, String CHANGE_SET_ID){
 
         googlechatnotification (
             url: "${GOOGLE_CHAT_URL}",
-            message: "This is a <strike>simple</strike> <i>card<i> text message " +
-                        "with a <a href=\"https://github.com/mkutz/jenkins-google-chat-notification\">link</a>" +
-                        "<br>and a line break, " +
-                        "which does not support mention @all users in the Group.")
+            message: "${gchatMessage}")
 }
 
 
