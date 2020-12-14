@@ -160,5 +160,5 @@ def notifyChat(String result){
 
         googlechatnotification (
             url: "${GOOGLE_CHAT_URL}",
-            message: "${gchatMessage}\n" +"${env.BUILD_URL}")
+            message: "${gchatMessage}\n" +"<${env.BUILD_URL}|build url>")
 }
