@@ -144,7 +144,7 @@ def notifyChatChangesetURL(String STACK_ID, String CHANGE_SET_ID){
 
         googlechatnotification (
             url: "${GOOGLE_CHAT_URL}",
-            message: "${gchatMessage}" + " ${env.JENKINS_URL}")
+            message: "${gchatMessage}" + " ${env.JOB_URL}")
 }
 
 
