@@ -138,13 +138,11 @@ def notifyChatChangesetURL(String STACK_ID, String CHANGE_SET_ID){
         String CHANGE_SET_ID_ENC = URLEncoder.encode(CHANGE_SET_ID, "UTF-8");
         String AWS_URL_BASE = "https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/changesets/changes?"
 
-        String URL = AWS_URL_BASE+"stackId="+STACK_ID_ENC+"&changeSetId="+CHANGE_SET_ID_ENC
-
-        String gchatMessage = "Link to view change set:\n"+URL
+        String CHANGESET_URL = AWS_URL_BASE+"stackId="+STACK_ID_ENC+"&changeSetId="+CHANGE_SET_ID_ENC
 
         googlechatnotification (
             url: "${GOOGLE_CHAT_URL}",
-            message: "${gchatMessage}" + " ${env.BUILD_URL}")
+            message: "<${CHANGESET_URL}|link>" + "<${env.BUILD_URL}|link>")
 }
 
 
