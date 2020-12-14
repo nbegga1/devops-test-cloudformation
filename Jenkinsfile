@@ -40,8 +40,7 @@ pipeline{
                                     sudo yum install jq > /dev/null
                                     aws cloudformation describe-change-set --stack-name s3-test-3 --change-set-name cg-${BUILD_NUMBER} --region us-east-1 | jq -r '.ChangeSetId'
                                 ''', returnStdout: true).trim()
-                            notifyChatChangesetURL(STACK_ID, CHANGE_SET_ID)
-                            notifyTest()
+                            notifyApprove(STACK_ID, CHANGE_SET_ID)
                         }
                         stage("Approval"){
                             script{
@@ -90,8 +89,7 @@ pipeline{
                                     sudo yum install jq > /dev/null
                                     aws cloudformation describe-change-set --stack-name s3-test-3 --change-set-name cg-${BUILD_NUMBER} --region us-east-1 | jq -r '.ChangeSetId'
                                 ''', returnStdout: true).trim()
-                            notifyChatChangesetURL(STACK_ID, CHANGE_SET_ID)
-                            notifyTest()
+                            notifyApprove(STACK_ID, CHANGE_SET_ID)
                         }
                         stage("Approval"){
                             script{
@@ -133,16 +131,19 @@ pipeline{
     }
 }
 
-def notifyChatChangesetURL(String STACK_ID, String CHANGE_SET_ID){
+
+
+@Library('devops-test-cloudformation')
+def notifyApprove(String STACK_ID, String CHANGE_SET_ID){
         String STACK_ID_ENC = URLEncoder.encode(STACK_ID, "UTF-8");
         String CHANGE_SET_ID_ENC = URLEncoder.encode(CHANGE_SET_ID, "UTF-8");
         String AWS_URL_BASE = "https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/changesets/changes?"
 
         String CHANGESET_URL = AWS_URL_BASE+"stackId="+STACK_ID_ENC+"&changeSetId="+CHANGE_SET_ID_ENC
 
-        googlechatnotification (
-            url: "${GOOGLE_CHAT_URL}",
-            message: "<${CHANGESET_URL}|Changeset>" + " <${env.BUILD_URL}|Approval>")
+        sendGoogleChatBuildReport(Version: env.VERSION,
+            message: "Go to <b><a href=\"${CHANGESET_URL}\">Change Set</a></b>\n" + 
+                    "Go to <a href=\"${env.BUILD_URL}\">Jenkins Console</a>")
 }
 
 
@@ -160,25 +161,4 @@ def notifyChat(String result){
         googlechatnotification (
             url: "${GOOGLE_CHAT_URL}",
             message: "${gchatMessage}")
-}
-@Library('devops-test-cloudformation')
-def notifyTest(){
-        
-
-        sendGoogleChatBuildReport(Version: env.VERSION,
-            message: "This is a <strike>simple</strike> <i>card<i> text message " +
-                        "with a <a href=\"https://github.com/mkutz/jenkins-google-chat-notification\">link</a>" +
-                        "<br>and a line break, " +
-                        "which does not support mention @all users in the Group.")
-        
-}
-
-
-def notifyChatApprove(){
-        // Not complete yet
-        googlechatnotification (
-            url: "${GOOGLE_CHAT_URL}",
-            message: input( id: 'approve',
-                            message: 'Do you approve of the changes?',
-                            parameters: [choice(name: 'Approvement', choices: "yes\nno", description: "Do you want to deploy these changes?")]))
 }
