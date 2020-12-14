@@ -161,7 +161,7 @@ def notifyChat(String result){
             url: "${GOOGLE_CHAT_URL}",
             message: "${gchatMessage}")
 }
-@Library('jenkins-google-chat-notification')
+@Library('devops-test-cloudformation')
 def notifyTest(){
         
 
