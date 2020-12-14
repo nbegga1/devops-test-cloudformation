@@ -22,7 +22,7 @@ void call(final Map<String, String> buildProperties = [:], final String url = en
     }
 
     final Map<String, String> actions = [
-        "BUILD": env.BUILD_URL,
+        "BUILD": "google.com",
         "CONSOLE": "${env.BUILD_URL}console",
         "TESTS": "${env.BUILD_URL}testReport"
     ]
