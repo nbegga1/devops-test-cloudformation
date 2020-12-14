@@ -89,20 +89,10 @@ void call(final Map<String, String> buildProperties = [:], final String url = en
         complexMessage.cards[0].sections << [
             widgets: [
                 [
-                    buttons:[
-                        textButton:[
-                            text: "NO!",
-                            onClick:[
-                                openLink:[
-                                    url: "google.com"
-                                ]
-                            ]
-                        ]
-                    ]
-                        
-                        // actions.collect { label, href ->
-                        //     [textButton: [text: label, onClick: [openLink: [url: href]]]]
-                        // }
+                    buttons:
+                        actions.collect { label, href ->
+                            [textButton: [text: label, onClick: [openLink: [url: href]]]]
+                        }
                 ]
             ]
         ]
