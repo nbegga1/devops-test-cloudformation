@@ -91,14 +91,14 @@ void call(final Map<String, String> buildProperties = [:], final String url = en
                 [
                     buttons:[
                         {
-                            textButton:{
+                            textButton:[
                                 text: "NO",
-                                onClick:{
-                                    openLink:{
+                                onClick:[
+                                    openLink:[
                                         url: "google.com"
-                                    }
-                                }
-                            }
+                                    ]
+                                ]
+                            ]
                         }
                     ]
                         
