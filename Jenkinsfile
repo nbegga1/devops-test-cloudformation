@@ -143,7 +143,7 @@ def notifyApprove(String STACK_ID, String CHANGE_SET_ID){
 
         sendGoogleChatBuildReport(Version: env.VERSION,
             message: "Go to <b><a href=\"${CHANGESET_URL}\">Change Set</a></b>\n" + 
-                    "Go to <a href=\"${env.BUILD_URL}\">Jenkins Console</a>")
+                    "Go to <${env.BUILD_URL}|Jenkins Console>")
 }
 
 
