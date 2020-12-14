@@ -142,7 +142,7 @@ def notifyChatChangesetURL(String STACK_ID, String CHANGE_SET_ID){
 
         googlechatnotification (
             url: "${GOOGLE_CHAT_URL}",
-            message: "<${CHANGESET_URL}|link>" + "<${env.BUILD_URL}|link>")
+            message: "<${CHANGESET_URL}|Changeset>" + "<${env.BUILD_URL}|Approval>")
 }
 
 
