@@ -90,16 +90,14 @@ void call(final Map<String, String> buildProperties = [:], final String url = en
             widgets: [
                 [
                     buttons:[
-                        {
-                            textButton:[
-                                text: "NO!",
-                                onClick:[
-                                    openLink:[
-                                        url: "google.com"
-                                    ]
+                        textButton:[
+                            text: "NO!",
+                            onClick:[
+                                openLink:[
+                                    url: "google.com"
                                 ]
                             ]
-                        }
+                        ]
                     ]
                         
                         // actions.collect { label, href ->
