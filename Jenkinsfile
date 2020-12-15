@@ -154,7 +154,7 @@ def notifyChat(String result){
         String gchatMessage = "`Notification from Jenkins:`\n" + "Pipeline name: *${env.JOB_BASE_NAME}*\n" + "Build number: *${env.BUILD_NUMBER}*\n" + "Branch: *main*\n"
 
         if(result == "success"){
-            gchatMessage += "Result: Success\n"
+            gchatMessage += "Result: *Success*\n"
         }
         else if(result == "failure"){
             gchatMessage += "Result: *Failure*\n"
