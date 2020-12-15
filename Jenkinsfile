@@ -141,9 +141,11 @@ def notifyApprove(String STACK_ID, String CHANGE_SET_ID){
 
         String CHANGESET_URL = AWS_URL_BASE+"stackId="+STACK_ID_ENC+"&changeSetId="+CHANGE_SET_ID_ENC
 
+        String gchatMessage = "Notification from Jenkins:\n"
+
         googlechatnotification (
             url: "${GOOGLE_CHAT_URL}",
-            message: "Review <${CHANGESET_URL}|ChangeSet>\n" +"Approve on <${env.BUILD_URL}|Jenkins console>")
+            message: "Review <${CHANGESET_URL}|ChangeSet>\n" +"Approve <${env.BUILD_URL}|build #${env.BUILD_NUMBER}>")
 }
 
 
@@ -160,5 +162,5 @@ def notifyChat(String result){
 
         googlechatnotification (
             url: "${GOOGLE_CHAT_URL}",
-            message: "${gchatMessage}\n" +"<${env.BUILD_URL}|build url>")
+            message: "${gchatMessage}\n" +"View <${env.BUILD_URL}|build #${env.BUILD_NUMBER}>")
 }
