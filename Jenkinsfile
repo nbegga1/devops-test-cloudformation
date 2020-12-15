@@ -157,10 +157,10 @@ def notifyChat(String result){
             gchatMessage = "Notification from Jenkins:\n" + "Pipeline name: ${env.JOB_BASE_NAME}\n" + "Build number: ${env.BUILD_NUMBER}\n" + "Branch: master (default because this is a single branch pipeline)\n" + "Result: Success"
         }
         else if(result == "failure"){
-            gchatMessage = "Notification from Jenkins:\n" + "Pipeline name: ${env.JOB_BASE_NAME}\n" + "Build number: ${env.BUILD_NUMBER}\n" + "Branch: master (default because this is a single branch pipeline)\n" + "Result: Failure\n"
+            gchatMessage = "`Notification from Jenkins:`\n" + "Pipeline name: *${env.JOB_BASE_NAME}*\n" + "Build number: *${env.BUILD_NUMBER}*\n" + "Branch: *main*\n" + "Result: *Failure*\n"
         }
 
         googlechatnotification (
             url: "${GOOGLE_CHAT_URL}",
-            message: "```${gchatMessage}" +"View <${env.BUILD_URL}|Build#${env.BUILD_NUMBER}>```")
+            message: "${gchatMessage}" +"View <${env.BUILD_URL}|*Build#${env.BUILD_NUMBER}*>")
 }
