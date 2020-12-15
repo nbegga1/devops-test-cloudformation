@@ -151,7 +151,7 @@ def notifyApprove(String STACK_ID, String CHANGE_SET_ID){
 
 def notifyChat(String result){
         // Not complete yet
-        String gchatMessage = "Notification from Jenkins:\n" + "Pipeline name: ${env.JOB_BASE_NAME}\n" + "Build number: ${env.BUILD_NUMBER}\n" + "Branch: main\n"
+        String gchatMessage = "`Notification from Jenkins:`\n" + "Pipeline name: *${env.JOB_BASE_NAME}*\n" + "Build number: *${env.BUILD_NUMBER}*\n" + "Branch: *main*\n"
 
         if(result == "success"){
             gchatMessage += "Result: Success\n"
