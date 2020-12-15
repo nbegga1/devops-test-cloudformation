@@ -141,11 +141,11 @@ def notifyApprove(String STACK_ID, String CHANGE_SET_ID){
 
         String CHANGESET_URL = AWS_URL_BASE+"stackId="+STACK_ID_ENC+"&changeSetId="+CHANGE_SET_ID_ENC
 
-        String gchatMessage = "Notification from Jenkins:\n"
+        String gchatMessage = "*Notification from Jenkins:*\n"
 
         googlechatnotification (
             url: "${GOOGLE_CHAT_URL}",
-            message: "${gchatMessage}\n" + "Review <${CHANGESET_URL}|ChangeSet>\n" +"Approve <${env.JENKINS_URL}/job/${env.JOB_NAME}/|build#${env.BUILD_NUMBER}>")
+            message: "```${gchatMessage}" + "Review <${CHANGESET_URL}|ChangeSet>\n" +"Approve <${env.JENKINS_URL}/job/${env.JOB_NAME}/|build#${env.BUILD_NUMBER}>```")
 }
 
 
@@ -157,10 +157,10 @@ def notifyChat(String result){
             gchatMessage = "Notification from Jenkins:\n" + "Pipeline name: ${env.JOB_BASE_NAME}\n" + "Build number: ${env.BUILD_NUMBER}\n" + "Branch: master (default because this is a single branch pipeline)\n" + "Result: Success"
         }
         else if(result == "failure"){
-            gchatMessage = "Notification from Jenkins:\n" + "Pipeline name: ${env.JOB_BASE_NAME}\n" + "Build number: ${env.BUILD_NUMBER}\n" + "Branch: master (default because this is a single branch pipeline)\n" + "Result: Failure"
+            gchatMessage = "*Notification from Jenkins:*\n" + "Pipeline name: ${env.JOB_BASE_NAME}\n" + "Build number: ${env.BUILD_NUMBER}\n" + "Branch: master (default because this is a single branch pipeline)\n" + "Result: Failure\n"
         }
 
         googlechatnotification (
             url: "${GOOGLE_CHAT_URL}",
-            message: "${gchatMessage}\n" +"View <${env.BUILD_URL}|Build#${env.BUILD_NUMBER}>")
+            message: "```${gchatMessage}" +"View <${env.BUILD_URL}|Build#${env.BUILD_NUMBER}>```")
 }
