@@ -145,7 +145,7 @@ def notifyApprove(String STACK_ID, String CHANGE_SET_ID){
 
         googlechatnotification (
             url: "${GOOGLE_CHAT_URL}",
-            message: "Review <${CHANGESET_URL}|ChangeSet>\n" +"Approve <${env.BUILD_URL}|build #${env.BUILD_NUMBER}>")
+            message: "Review <${CHANGESET_URL}|ChangeSet>\n" +"Approve <${env.JENKINS_URL}|build#${env.BUILD_NUMBER}>")
 }
 
 
@@ -162,5 +162,5 @@ def notifyChat(String result){
 
         googlechatnotification (
             url: "${GOOGLE_CHAT_URL}",
-            message: "${gchatMessage}\n" +"View <${env.BUILD_URL}|build #${env.BUILD_NUMBER}>")
+            message: "${gchatMessage}\n" +"View <${env.BUILD_URL}|Build#${env.BUILD_NUMBER}>")
 }
