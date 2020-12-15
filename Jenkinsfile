@@ -151,13 +151,13 @@ def notifyApprove(String STACK_ID, String CHANGE_SET_ID){
 
 def notifyChat(String result){
         // Not complete yet
-        String gchatMessage;
+        String gchatMessage = "Notification from Jenkins:\n" + "Pipeline name: ${env.JOB_BASE_NAME}\n" + "Build number: ${env.BUILD_NUMBER}\n" + "Branch: main\n"
 
         if(result == "success"){
-            gchatMessage = "Notification from Jenkins:\n" + "Pipeline name: ${env.JOB_BASE_NAME}\n" + "Build number: ${env.BUILD_NUMBER}\n" + "Branch: master (default because this is a single branch pipeline)\n" + "Result: Success"
+            gchatMessage += "Result: Success\n"
         }
         else if(result == "failure"){
-            gchatMessage = "`Notification from Jenkins:`\n" + "Pipeline name: *${env.JOB_BASE_NAME}*\n" + "Build number: *${env.BUILD_NUMBER}*\n" + "Branch: *main*\n" + "Result: *Failure*\n"
+            gchatMessage += "Result: *Failure*\n"
         }
 
         googlechatnotification (
