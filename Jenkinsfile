@@ -145,7 +145,7 @@ def notifyApprove(String STACK_ID, String CHANGE_SET_ID){
 
         googlechatnotification (
             url: "${GOOGLE_CHAT_URL}",
-            message: "Review <${CHANGESET_URL}|ChangeSet>\n" +"Approve <${env.JENKINS_URL}|build#${env.BUILD_NUMBER}>")
+            message: "${gchatMessage}\n" + "Review <${CHANGESET_URL}|ChangeSet>\n" +"Approve <${env.JENKINS_URL}/job/${env.JOB_NAME}/|build#${env.BUILD_NUMBER}>")
 }
 
 
