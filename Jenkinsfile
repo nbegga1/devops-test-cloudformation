@@ -11,7 +11,19 @@ pipeline{
     }
 
     stages{
-        stage("Start"){
+        stage("Deploy lambda code"){
+
+            steps{
+                sh '''
+                    cd package
+                    zip -r lambda-deployment-package.zip ./*
+                    cd ..
+                    zip -g lambda-deployment-package.zip index.py
+                    aws s3 cp lambda-deployment-package.zip s3://lambda-package-bucket-test
+                '''
+            }
+        }
+        stage("Check Update/Create"){
             steps{
                 script{
                     def STACK_CREATE = sh(script: '''
