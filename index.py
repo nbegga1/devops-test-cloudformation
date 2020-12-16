@@ -23,10 +23,3 @@ def lambda_handler(event, context):
     item['Company'] = row['Company']
     item['project'] = row['Project']
     response = table.put_item(Item=item)
-
-    def dummy_function(num):
-      return num/num
-
-    def test_dummy_function():
-      result = dummy_function(10)
-      assert result == 1

@@ -16,7 +16,7 @@ pipeline{
 
             steps{
                 sh '''
-                    python3 -m pytest index.py
+                    python3 -m pytest test.py
                     cd package
                     zip -r lambda-deployment-package.zip ./*
                     cd ..
