@@ -11,10 +11,12 @@ pipeline{
     }
 
     stages{
-        stage("Deploy lambda code"){
+        
+        stage("Deploy and test python"){
 
             steps{
                 sh '''
+                    python3 -m pytest index.py
                     cd package
                     zip -r lambda-deployment-package.zip ./*
                     cd ..
