@@ -26,8 +26,8 @@ pipeline{
         //     }
         // }
         stage("SonarQube Code Analysis"){
-            steps{
-                sh "/home/jenkins/tools/hudson.plugins.sonar.SonarRunnerInstallation/Sonar-Scanner/bin/sonar-scanner -Dsonar.host.url=http://54.80.181.11:9000 -Dsonar.projectName=devops-test-cloudformation -Dsonar.projectVersion=1.0 -Dsonar.projectKey=meanstack:app -Dsonar.sources=. -Dsonar.projectBaseDir=/home/jenkins/workspace/cf-devops-pipeline"
+            withSonarQubeEnv('SonarQubeServer') {
+                sh "${scannerHome}/Sonar-Scanner/bin/sonar-scanner"          
             }
         }
         stage("Check Update/Create"){
