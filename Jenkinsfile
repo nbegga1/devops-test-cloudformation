@@ -26,8 +26,9 @@ pipeline{
         //     }
         // }
         stage("SonarQube Code Analysis"){
+            def scannerhome = tool 'Sonar-Scanner';
             withSonarQubeEnv('SonarQubeServer') {
-                sh "${scannerHome}/Sonar-Scanner/bin/sonar-scanner"          
+                sh """${scannerHome}/bin/sonar-runner"""        
             }
         }
         stage("Check Update/Create"){
