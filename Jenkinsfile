@@ -25,14 +25,19 @@ pipeline{
         //         '''
         //     }
         // }
-        stage("SonarQube Code Analysis"){
-            steps{
-                withSonarQubeEnv('SonarQubeServer', envOnly: true) {
-                    // This expands the evironment variables SONAR_CONFIG_NAME, SONAR_HOST_URL, SONAR_AUTH_TOKEN that can be used by any script.
-                    sh "echo ${env.SONAR_HOST_URL}" 
+        stage('Code Quality Check via SonarQube') {
+            steps {
+                script {
+                def scannerHome = tool 'Sonar-Scanner';
+                    withSonarQubeEnv("SonarQubeServer") {
+                    sh "${tool("sonarqube")}/bin/sonar-scanner \
+                        -Dsonar.projectKey=jenkins \
+                        -Dsonar.sources=. \
+                        -Dsonar.host.url=http://54.167.182.116:9000 \
+                        -Dsonar.login=c0057cbe36d473c0170a3eacd65f88e4ce173996"
+                    }
                 }
             }
-            
         }
         stage("Check Update/Create"){
             steps{
