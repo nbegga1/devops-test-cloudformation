@@ -28,13 +28,13 @@ pipeline{
         stage('Code Quality Check via SonarQube') {
             steps {
                 script {
-                def scannerHome = tool 'Sonar-Scanner';
+                    def scannerHome = tool 'Sonar-Scanner';
                     withSonarQubeEnv("SonarQubeServer") {
                     sh "${tool("sonarqube")}/bin/sonar-scanner \
-                        -Dsonar.projectKey=jenkins \
-                        -Dsonar.sources=. \
-                        -Dsonar.host.url=http://54.167.182.116:9000 \
-                        -Dsonar.login=c0057cbe36d473c0170a3eacd65f88e4ce173996"
+                            -Dsonar.projectKey=jenkins \
+                            -Dsonar.sources=. \
+                            -Dsonar.host.url=http://54.167.182.116:9000 \
+                            -Dsonar.login=c0057cbe36d473c0170a3eacd65f88e4ce173996"
                     }
                 }
             }
