@@ -31,7 +31,8 @@ pipeline{
                     scannerHome = tool 'Sonar-Scanner'
                 }
                     withSonarQubeEnv('SonarQubeServer') {
-                        sh "${scannerHome}/bin/sonar-scanner"
+                        sh "${scannerHome}/bin/sonar-scanner \
+                        -Dsonar.projectKey=jenkins"
                     }
                 }
             }
