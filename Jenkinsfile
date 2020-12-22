@@ -12,19 +12,18 @@ pipeline{
 
     stages{
         
-        // stage("Deploy and test python"){
-
-        //     steps{
-        //         sh '''
-        //             python3 -m pytest test.py
-        //             cd package
-        //             zip -r lambda-deployment-package.zip ./*
-        //             cd ..
-        //             zip -g lambda-deployment-package.zip index.py
-        //             aws s3 cp lambda-deployment-package.zip s3://lambda-package-bucket-test
-        //         '''
-        //     }
-        // }
+        stage("Deploy and test python"){
+            steps{
+                sh '''
+                    python3 -m pytest test.py
+                    cd package
+                    zip -r lambda-deployment-package.zip ./*
+                    cd ..
+                    zip -g lambda-deployment-package.zip index.py
+                    aws s3 cp lambda-deployment-package.zip s3://lambda-package-bucket-test
+                '''
+            }
+        }
         stage('SonarQube analysis') {
             steps {
                 script {
